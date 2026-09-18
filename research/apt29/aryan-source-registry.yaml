@@ -1,0 +1,457 @@
+sources:
+  - source_id: mandiant-apt29-trello-phishing
+    owner: aryan
+    publisher: Mandiant
+    url: https://cloud.google.com/blog/topics/threat-intelligence/tracking-apt29-phishing-campaigns/
+    source_type: report
+    retrieved_at: "2026-09-18"
+    published_at: "2022-04-28"
+    license: publisher-copyright
+    redistribution: restricted
+    formats: [html]
+    update_frequency: static
+    confidence_model: publisher-analytic-assessment
+    temporal_fields: [publication-date, campaign-timeframe]
+    actor_attribution_basis: Mandiant incident-response observations and analysis
+    value: [behavior, active-directory, emulation]
+
+  - source_id: mandiant-apt29-credential-roaming
+    owner: aryan
+    publisher: Mandiant
+    url: https://cloud.google.com/blog/topics/threat-intelligence/apt29-windows-credential-roaming/
+    source_type: report
+    retrieved_at: "2026-09-18"
+    published_at: "2022-11-08"
+    license: publisher-copyright
+    redistribution: restricted
+    formats: [html]
+    update_frequency: static
+    confidence_model: publisher-incident-response-assessment
+    temporal_fields: [publication-date, incident-timeframe]
+    actor_attribution_basis: Mandiant investigation and historic targeting context
+    value: [behavior, active-directory, detection]
+
+  - source_id: microsoft-nobelium-toolset-may-2021
+    owner: aryan
+    publisher: Microsoft Threat Intelligence
+    url: https://www.microsoft.com/en-us/security/blog/?p=93658
+    structured_data_url: https://github.com/microsoft/mstic/tree/master/Indicators/May21-NOBELIUM
+    source_type: report-and-indicator-repository
+    retrieved_at: "2026-09-18"
+    published_at: "2021-05-28"
+    license: CC-BY-4.0-for-repository-content; MIT-for-repository-code
+    redistribution: allowed-with-attribution-for-repository-content
+    formats: [html, csv]
+    update_frequency: static-campaign-collection
+    confidence_model: Microsoft-attributed-campaign-indicators
+    temporal_fields: [publication-date, first-observed-where-provided]
+    actor_attribution_basis: Microsoft threat-intelligence assessment
+    value: [ioc, malware, infection-chain]
+    artifacts:
+      - path: data/raw/apt29/microsoft-mstic-may21/May21NOBELIUMIoCs.csv
+        byte_size: 22652
+        sha256: 1e9ec877aea1c8c8225b193a8f6e82ac32c7fcaa792af2031b96a04af63a1b5e
+        upstream_commit: 5b67aa9c3d741ec59f19dcac329b7aa1920e6ff3
+        records: 127
+        status: preserved
+
+  - source_id: microsoft-nobelium-email-campaign-may-2021
+    owner: aryan
+    publisher: Microsoft Threat Intelligence
+    url: https://www.microsoft.com/security/blog/2021/05/27/new-sophisticated-email-based-attack-from-nobelium/
+    source_type: report
+    retrieved_at: "2026-09-18"
+    published_at: "2021-05-27"
+    license: publisher-copyright
+    redistribution: restricted
+    formats: [html]
+    update_frequency: static
+    confidence_model: Microsoft-attributed-campaign-observations
+    temporal_fields: [publication-date, campaign-date]
+    actor_attribution_basis: Microsoft threat-intelligence assessment
+    value: [ioc, phishing, execution-chain]
+
+  - source_id: mandiant-apt29-wineloader-2024
+    owner: aryan
+    publisher: Mandiant
+    url: https://cloud.google.com/blog/topics/threat-intelligence/apt29-wineloader-german-political-parties
+    source_type: report
+    retrieved_at: "2026-09-18"
+    published_at: "2024-03-22"
+    license: publisher-copyright
+    redistribution: restricted
+    formats: [html]
+    update_frequency: static
+    confidence_model: publisher-analytic-assessment
+    temporal_fields: [publication-date, campaign-timeframe]
+    actor_attribution_basis: Mandiant tracking and government-linked attribution context
+    value: [ioc, malware, attack-techniques, emulation]
+
+  - source_id: cisa-aa21-116a-russian-svr
+    owner: aryan
+    publisher: CISA and FBI
+    url: https://www.cisa.gov/sites/default/files/publications/AA21-116A_Russian_Foreign_Intelligence_Service_Cyber_Operations_508C.pdf
+    source_type: government-advisory
+    retrieved_at: "2026-09-18"
+    published_at: "2021-04-26"
+    license: verify-joint-advisory-terms
+    redistribution: unknown
+    formats: [pdf]
+    update_frequency: static
+    confidence_model: government-assessment
+    temporal_fields: [publication-date]
+    actor_attribution_basis: United States government attribution
+    value: [attribution, aliases, defensive-guidance]
+
+  - source_id: mandiant-unc2452-merged-into-apt29
+    owner: aryan
+    publisher: Mandiant
+    url: https://cloud.google.com/blog/topics/threat-intelligence/unc2452-merged-into-apt29/
+    source_type: report
+    retrieved_at: "2026-09-18"
+    published_at: "2022-04-27"
+    license: publisher-copyright
+    redistribution: restricted
+    formats: [html]
+    update_frequency: static
+    confidence_model: publisher-attribution-assessment
+    temporal_fields: [publication-date, observation-period]
+    actor_attribution_basis: Mandiant comparison of firsthand UNC2452 and APT29 data
+    value: [attribution, aliases, behavior, cloud]
+
+  - source_id: otrf-security-datasets-apt29
+    owner: aryan
+    publisher: Open Threat Research Forge
+    url: https://github.com/OTRF/Security-Datasets/tree/master/datasets/compound/apt29
+    source_type: emulation-telemetry-dataset
+    retrieved_at: "2026-09-18"
+    license: MIT
+    redistribution: allowed-with-license
+    formats: [zip, json, zeek-tsv, pcap, xlsx, markdown]
+    update_frequency: repository
+    confidence_model: ATT-and-CK-Evaluations-APT29-emulation
+    temporal_fields: [event-time, collection-day]
+    actor_attribution_basis: dataset generated from the MITRE ATT-and-CK APT29 evaluation scenario
+    value: [host-telemetry, network-telemetry, packet-capture, evaluation]
+    artifacts:
+      - path: data/raw/apt29/otrf-security-datasets
+        file_count: 124
+        byte_size_on_disk: 133369856
+        upstream_commit: d9d40ef123d2c87d5d3df28c96bcab4f0faccc87
+        status: preserved
+
+  - source_id: ncsc-apt29-covid-19
+    owner: aryan
+    publisher: UK National Cyber Security Centre
+    url: https://www.ncsc.gov.uk/sites/default/files/documents/Advisory-APT29-targets-COVID-19-vaccine-development-V1-1.pdf
+    source_type: government-advisory
+    retrieved_at: "2026-09-18"
+    published_at: "2020-07-16"
+    license: Open-Government-Licence-v3-context
+    redistribution: verify-document-specific-terms
+    formats: [pdf]
+    update_frequency: static
+    confidence_model: joint-government-assessment
+    temporal_fields: [publication-date, campaign-timeframe]
+    actor_attribution_basis: UK, US, and Canadian government assessment
+    value: [ioc, yara, malware-analysis, attribution]
+    artifacts:
+      - path: data/raw/apt29/government/ncsc-apt29-covid-19-advisory.pdf
+        byte_size: 414373
+        sha256: 82a8d7ee8ab3aa77231a9214f0ce4247377c47078dd1e927c84b3e363430fe5f
+        status: preserved
+
+  - source_id: ncsc-further-svr-ttps-2021
+    owner: aryan
+    publisher: UK National Cyber Security Centre
+    url: https://www.ncsc.gov.uk/sites/default/files/documents/Advisory-further-TTPs-associated-with-SVR-cyber-actors.pdf
+    source_type: government-advisory
+    retrieved_at: "2026-09-18"
+    published_at: "2021-05-07"
+    license: Open-Government-Licence-v3-context
+    redistribution: verify-document-specific-terms
+    formats: [pdf]
+    update_frequency: static
+    confidence_model: government-assessment
+    temporal_fields: [publication-date]
+    actor_attribution_basis: UK and US government assessment
+    value: [ioc, detection, malware, attack-techniques]
+    artifacts:
+      - path: data/raw/apt29/government/ncsc-further-svr-ttps.pdf
+        byte_size: 355050
+        sha256: f6f5a47c56e6fefb5f3d12e30343b0874436eb9ecfba672d06efa14db9eb5e79
+        status: preserved
+
+  - source_id: microsoft-defender-hunting-queries
+    owner: aryan
+    publisher: Microsoft
+    url: https://github.com/microsoft/Microsoft-365-Defender-Hunting-Queries
+    source_type: detection-query-repository
+    retrieved_at: "2026-09-18"
+    license: MIT
+    redistribution: allowed-with-license
+    formats: [kql, markdown, yaml]
+    update_frequency: archived-repository
+    confidence_model: publisher-authored-hunting-content
+    temporal_fields: [git-history]
+    actor_attribution_basis: Microsoft campaign naming and research
+    value: [hunting-query, endpoint, identity, cloud, email]
+    artifacts:
+      - path: data/raw/apt29/microsoft-defender-hunting-queries
+        file_count: 388
+        apt29_alias_matching_files: 28
+        byte_size_on_disk: 7352320
+        upstream_commit: efa17a600b43c897b4b7463cc8541daa1987eeb4
+        status: preserved
+
+  - source_id: sigmahq-apt29-matches
+    owner: aryan
+    publisher: SigmaHQ community
+    url: https://github.com/SigmaHQ/sigma
+    source_type: detection-rule-repository
+    retrieved_at: "2026-09-18"
+    license: repository-license
+    redistribution: allowed-with-license
+    formats: [yaml]
+    update_frequency: repository
+    confidence_model: community-detection-rules-with-source-references
+    temporal_fields: [rule-date, rule-modified, git-history]
+    actor_attribution_basis: individual rule references and tags
+    value: [sigma, endpoint, network, detection]
+    artifacts:
+      - path: data/raw/apt29/sigmahq
+        file_count: 31
+        candidate_rule_files: 30
+        byte_size_on_disk: 131072
+        upstream_commit: 2e8fd89f82d9104c1b30321a307254ddeea17de2
+        status: preserved-needs-relevance-review
+
+  - source_id: microsoft-sentinel-apt29-content
+    owner: aryan
+    publisher: Microsoft
+    url: https://github.com/Azure/Azure-Sentinel
+    source_type: detection-and-hunting-repository
+    retrieved_at: "2026-09-18"
+    license: MIT
+    redistribution: allowed-with-license
+    formats: [yaml, json, csv, png]
+    update_frequency: repository
+    confidence_model: publisher-and-community-detection-content
+    temporal_fields: [rule-version, git-history]
+    actor_attribution_basis: Microsoft APT29, NOBELIUM, UNC2452, and SolarWinds campaign naming
+    value: [hunting-query, analytic-rule, workbook, watchlist, sample-ioc]
+    artifacts:
+      - path: data/raw/apt29/microsoft-sentinel
+        file_count: 53
+        yaml_files: 46
+        byte_size_on_disk: 651264
+        upstream_commit: d5ec5e1cd4bdfa77ed45cbd90aa54d53b41563fb
+        status: preserved
+
+  - source_id: misp-galaxy-apt29-context
+    owner: aryan
+    publisher: MISP Project and contributing data publishers
+    url: https://github.com/MISP/misp-galaxy
+    source_type: threat-intelligence-knowledge-base
+    retrieved_at: "2026-09-18"
+    license: CC0-or-BSD-2-Clause
+    redistribution: allowed-with-license
+    formats: [json]
+    update_frequency: repository
+    confidence_model: source-dependent-open-source-aggregation
+    temporal_fields: [cluster-version, first-seen, last-seen]
+    actor_attribution_basis: multiple publisher-specific clusters; conflicts intentionally retained
+    value: [aliases, relationships, malware, campaigns, references]
+    artifacts:
+      - path: data/raw/apt29/misp-galaxy
+        file_count: 8
+        byte_size_on_disk: 6369280
+        upstream_commit: 41f298d540934d699e151dd624389cb0dfe2e1f3
+        status: preserved-unfiltered-source-files
+
+  - source_id: splunk-attack-data-wineloader
+    owner: aryan
+    publisher: Splunk
+    url: https://github.com/splunk/attack_data/tree/master/datasets/attack_techniques/T1574.002/wineloader
+    source_type: atomic-attack-telemetry
+    retrieved_at: "2026-09-18"
+    license: Apache-2.0
+    redistribution: allowed-with-license
+    formats: [xml-event-log-text, yaml]
+    update_frequency: repository
+    confidence_model: attack-range-generated-dataset
+    temporal_fields: [event-time, dataset-date, git-history]
+    actor_attribution_basis: dataset labeled WINELOADER and linked to T1574.002
+    value: [sysmon, image-load, dll-side-loading, evaluation]
+    artifacts:
+      - path: data/raw/apt29/splunk-attack-data/wineloader/sqlwriter_sqldumper_sideload_windows-sysmon.log
+        byte_size: 4446
+        sha256: ccefeceb80fc3df56ae3b8f45b82d33ab5d2569e715fcb29188b7f2c5fdf529b
+        upstream_commit: 6bc794b7f65562148c872fde1e7412ab3c173f4c
+        records: 3
+        sourcetype: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+        event_id: 7
+        status: preserved
+
+  - source_id: cisa-aa23-347a-teamcity-svr
+    owner: aryan
+    publisher: CISA, FBI, NSA, SKW, CERT.PL, and NCSC
+    url: https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+    direct_url: https://www.cisa.gov/sites/default/files/2023-12/aa23-347a-russian-foreign-intelligence-service-svr-exploiting-jetbrains-teamcity-cve-globally_0.pdf
+    source_type: joint-government-advisory
+    retrieved_at: "2026-09-18"
+    published_at: "2023-12-13"
+    license: TLP-CLEAR-subject-to-standard-copyright
+    redistribution: allowed-under-TLP-subject-to-copyright
+    formats: [pdf]
+    update_frequency: static
+    confidence_model: joint-government-assessment
+    temporal_fields: [publication-date, observed-since]
+    actor_attribution_basis: joint government assessment of SVR activity
+    value: [ioc, sigma, yara, behavior, detection, teamcity]
+    artifacts:
+      - path: data/raw/apt29/government/cisa-aa23-347a-teamcity-svr.pdf
+        byte_size: 793237
+        pages: 27
+        sha256: 821e462f54a1fb42776ad3a0b6280529f9b36bd00f41e9d08627b823569e38ad
+        status: preserved
+
+  - source_id: ncsc-svr-cloud-access-2024
+    owner: aryan
+    publisher: UK NCSC and international partners
+    url: https://www.ncsc.gov.uk/news/svr-cyber-actors-adapt-tactics-for-initial-cloud-access
+    direct_url: https://www.ncsc.gov.uk/files/Advisory-SVR-cyber-actors-adapt-tactics-for-initial-cloud-access.pdf
+    source_type: joint-government-advisory
+    retrieved_at: "2026-09-18"
+    published_at: "2024-02-26"
+    license: UK-Crown-Copyright
+    redistribution: verify-document-specific-terms
+    formats: [html, pdf]
+    update_frequency: static
+    confidence_model: joint-government-assessment
+    temporal_fields: [publication-date, previous-12-months]
+    actor_attribution_basis: NCSC and partner government assessment
+    value: [cloud, identity, detection, attack-techniques]
+    artifacts:
+      - path: data/raw/apt29/government/ncsc-svr-cloud-access.pdf
+        byte_size: 2190783
+        pages: 8
+        sha256: a6b0fef6485adfc3e47c7bf5eb25e61e9364b1c26431d610a6f16b2dafb4bc98
+        status: preserved
+
+  - source_id: eset-operation-ghost
+    owner: aryan
+    publisher: ESET Research
+    url: https://www.welivesecurity.com/2019/10/17/operation-ghost-dukes-never-left/
+    structured_data_url: https://github.com/eset/malware-ioc/tree/master/dukes
+    source_type: report-and-indicator-repository
+    retrieved_at: "2026-09-18"
+    published_at: "2019-10-17"
+    license: BSD-2-Clause-for-repository; publisher-copyright-for-report
+    redistribution: repository-allowed-with-license; report-restricted
+    formats: [pdf, misp-json, adoc, hash-lists]
+    update_frequency: static-campaign-collection
+    confidence_model: ESET-telemetry-and-malware-analysis
+    temporal_fields: [publication-date, compilation-time, campaign-timeframe]
+    actor_attribution_basis: ESET code, targeting, and historical overlap assessment
+    value: [ioc, misp, malware, network, behavior, attack-techniques]
+    artifacts:
+      - path: data/raw/apt29/eset-operation-ghost
+        file_count: 6
+        upstream_commit: 17baf44964a77368e9149f4f593eb098beddf1c5
+        status: preserved
+      - path: data/raw/apt29/vendor-reports/eset-operation-ghost.pdf
+        byte_size: 2430957
+        pages: 40
+        sha256: 3f829773b64e8eeefeb7cb3d236fad88540e5ac47ae0f3e22887608fba220e01
+        status: preserved
+
+  - source_id: f-secure-the-dukes
+    owner: aryan
+    publisher: F-Secure
+    url: https://labs.withsecure.com/content/dam/labs/docs/dukes-whitepaper.pdf
+    source_type: vendor-white-paper
+    retrieved_at: "2026-09-18"
+    published_at: "2015"
+    license: publisher-copyright
+    redistribution: restricted
+    formats: [pdf]
+    update_frequency: static
+    confidence_model: vendor-malware-and-campaign-analysis
+    temporal_fields: [publication-year, campaign-timeline]
+    actor_attribution_basis: F-Secure historical analysis
+    value: [historical-ioc, malware, campaigns, aliases]
+    artifacts:
+      - path: data/raw/apt29/vendor-reports/f-secure-the-dukes-download-response.html
+        status: blocked-redirect-returned-unrelated-html
+
+  - source_id: mandiant-sunburst-countermeasures
+    owner: aryan
+    publisher: Mandiant
+    url: https://github.com/mandiant/sunburst_countermeasures
+    source_type: detection-and-indicator-repository
+    retrieved_at: "2026-09-18"
+    license: Apache-2.0
+    redistribution: allowed-with-license
+    formats: [yara, snort, clamav, openioc, csv, text, markdown]
+    update_frequency: static-campaign-collection
+    confidence_model: Mandiant-incident-response-and-malware-analysis
+    temporal_fields: [git-history, indicator-release-context]
+    actor_attribution_basis: SolarWinds campaign reporting; preserve attribution caveats in source
+    value: [ioc, yara, snort, clamav, openioc, detection]
+    artifacts:
+      - path: data/raw/apt29/mandiant-sunburst-countermeasures
+        file_count: 53
+        byte_size_on_disk: 262144
+        upstream_commit: 5e238b289655a9df2a225664d9e1bdd1afe22c93
+        yara_rules_in_combined_file: 6
+        snort_rules_in_combined_file: 28
+        status: preserved
+
+  - source_id: microsoft-midnight-blizzard-rdp-2024
+    owner: aryan
+    publisher: Microsoft Threat Intelligence
+    url: https://www.microsoft.com/en-us/security/blog/2024/10/29/midnight-blizzard-conducts-large-scale-spear-phishing-campaign-using-rdp-files/
+    source_type: report
+    retrieved_at: "2026-09-18"
+    published_at: "2024-10-29"
+    license: publisher-copyright
+    redistribution: restricted
+    formats: [html]
+    update_frequency: static
+    confidence_model: Microsoft-observed-campaign
+    temporal_fields: [publication-date, campaign-date]
+    actor_attribution_basis: Microsoft Threat Intelligence assessment
+    value: [ioc, phishing, rdp, credential-exposure, detection]
+
+  - source_id: gtig-unc6293-asp-phishing-2025
+    owner: aryan
+    publisher: Google Threat Intelligence Group
+    url: https://cloud.google.com/blog/topics/threat-intelligence/creative-phishing-academics-critics-of-russia
+    source_type: report
+    retrieved_at: "2026-09-18"
+    published_at: "2025-06-18"
+    license: publisher-copyright
+    redistribution: restricted
+    formats: [html]
+    update_frequency: updated-report
+    confidence_model: GTIG-low-confidence-association
+    temporal_fields: [publication-date, campaign-timeframe, update-date]
+    actor_attribution_basis: UNC6293 assessed with low confidence as associated with APT29/ICECAP
+    value: [phishing, application-specific-password, oauth, device-code, attribution-caveat]
+
+  - source_id: microsoft-captivecrunch-2026
+    owner: aryan
+    publisher: Microsoft Threat Intelligence
+    url: https://www.microsoft.com/en-us/security/blog/2026/07/31/captivecrunch-midnight-blizzard-targets-travelers-worldwide-for-malware-delivery-and-credential-theft/
+    source_type: report
+    retrieved_at: "2026-09-18"
+    published_at: "2026-07-31"
+    license: publisher-copyright
+    redistribution: restricted
+    formats: [html]
+    update_frequency: static
+    confidence_model: Microsoft-observed-campaign-and-subcluster-assessment
+    temporal_fields: [publication-date, campaign-timeframe]
+    actor_attribution_basis: Microsoft assessment that Storm-2945 is a Midnight Blizzard operational sub-cluster
+    value: [dns, http, captive-portal, aitm, clickfix, device-code, oauth, cloud]

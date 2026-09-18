@@ -1,0 +1,94 @@
+manifest_version: 1
+actor_scope: APT29
+owner: aryan
+generated_at: "2026-09-18"
+phase: raw-collection
+policy:
+  normalized: false
+  malware_binaries: false
+  raw_root_gitignored: true
+
+collections:
+  - id: otrf-security-datasets-apt29
+    path: data/raw/apt29/otrf-security-datasets
+    files: 124
+    byte_size_on_disk: 133369856
+    upstream_commit: d9d40ef123d2c87d5d3df28c96bcab4f0faccc87
+    content: [host-events, zeek, pcap, workbook, documentation]
+
+  - id: mstic-may21-nobelium
+    path: data/raw/apt29/microsoft-mstic-may21/May21NOBELIUMIoCs.csv
+    byte_size: 22652
+    sha256: 1e9ec877aea1c8c8225b193a8f6e82ac32c7fcaa792af2031b96a04af63a1b5e
+    upstream_commit: 5b67aa9c3d741ec59f19dcac329b7aa1920e6ff3
+    records: 127
+
+  - id: government-advisories
+    path: data/raw/apt29/government
+    files: 5
+    artifacts:
+      - filename: cisa-aa21-116a-svr.pdf
+        sha256: 666225ebbc4ffe8feab83e2491426aa98d2fe7204d02f28721e4c4294838c49e
+      - filename: ncsc-apt29-covid-19-advisory.pdf
+        sha256: 82a8d7ee8ab3aa77231a9214f0ce4247377c47078dd1e927c84b3e363430fe5f
+      - filename: ncsc-further-svr-ttps.pdf
+        sha256: f6f5a47c56e6fefb5f3d12e30343b0874436eb9ecfba672d06efa14db9eb5e79
+      - filename: cisa-aa23-347a-teamcity-svr.pdf
+        sha256: 821e462f54a1fb42776ad3a0b6280529f9b36bd00f41e9d08627b823569e38ad
+      - filename: ncsc-svr-cloud-access.pdf
+        sha256: a6b0fef6485adfc3e47c7bf5eb25e61e9364b1c26431d610a6f16b2dafb4bc98
+
+  - id: microsoft-defender-hunting-queries
+    path: data/raw/apt29/microsoft-defender-hunting-queries
+    files: 388
+    alias_matching_files: 28
+    upstream_commit: efa17a600b43c897b4b7463cc8541daa1987eeb4
+
+  - id: sigmahq-apt29-candidates
+    path: data/raw/apt29/sigmahq
+    files: 31
+    candidate_rules: 30
+    upstream_commit: 2e8fd89f82d9104c1b30321a307254ddeea17de2
+    caveat: raw keyword matches include possible false positives
+
+  - id: microsoft-sentinel-apt29-content
+    path: data/raw/apt29/microsoft-sentinel
+    files: 53
+    yaml_files: 46
+    upstream_commit: d5ec5e1cd4bdfa77ed45cbd90aa54d53b41563fb
+    content: [hunting-queries, analytic-rules, watchlist, workbook, sample-ioc]
+
+  - id: misp-galaxy-apt29-context
+    path: data/raw/apt29/misp-galaxy
+    files: 8
+    upstream_commit: 41f298d540934d699e151dd624389cb0dfe2e1f3
+    caveat: full source clusters retained; entries are not yet extracted or reconciled
+
+  - id: splunk-attack-data-wineloader
+    path: data/raw/apt29/splunk-attack-data/wineloader/sqlwriter_sqldumper_sideload_windows-sysmon.log
+    records: 3
+    byte_size: 4446
+    sha256: ccefeceb80fc3df56ae3b8f45b82d33ab5d2569e715fcb29188b7f2c5fdf529b
+    upstream_commit: 6bc794b7f65562148c872fde1e7412ab3c173f4c
+    sourcetype: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    event_id: 7
+
+  - id: eset-operation-ghost
+    path: data/raw/apt29/eset-operation-ghost
+    files: 6
+    upstream_commit: 17baf44964a77368e9149f4f593eb098beddf1c5
+    content: [misp-event, md5-list, sha1-list, sha256-list, narrative-iocs]
+    report:
+      path: data/raw/apt29/vendor-reports/eset-operation-ghost.pdf
+      pages: 40
+      byte_size: 2430957
+      sha256: 3f829773b64e8eeefeb7cb3d236fad88540e5ac47ae0f3e22887608fba220e01
+
+  - id: mandiant-sunburst-countermeasures
+    path: data/raw/apt29/mandiant-sunburst-countermeasures
+    files: 53
+    byte_size_on_disk: 262144
+    upstream_commit: 5e238b289655a9df2a225664d9e1bdd1afe22c93
+    combined_yara_rules: 6
+    combined_snort_rules: 28
+    content: [indicator-csv, yara, snort, clamav, openioc, methodology]
