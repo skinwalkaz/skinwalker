@@ -1,0 +1,232 @@
+{
+  "schema": "skinwalker.report.v1",
+  "generated_at": "2026-09-20T19:36:08.878262+00:00",
+  "summary": {
+    "events_scanned": 3,
+    "findings": 1,
+    "ioc_matches": 1,
+    "events_with_normalization_warnings": 0
+  },
+  "inputs": [
+    {
+      "path": "examples/ingestion-events.jsonl",
+      "size_bytes": 879,
+      "sha256": "ba0053e9130ce8c973c8ff4cd5c656bbfb00a4145f48e7c16888452c49058d99"
+    }
+  ],
+  "intel_inputs": [
+    {
+      "path": "data/APT29/IOC Snapshot - 2026-09-18/apt29-iocs.json",
+      "size_bytes": 707522,
+      "sha256": "2dee536bd9439d9a400cf62d4d23174b469832facf7c8aee572ddf3078459956"
+    }
+  ],
+  "intel_summary": {
+    "accepted_records": 612,
+    "unique_indicators": 611,
+    "rejected_records": 5,
+    "issues": [
+      {
+        "file": "data\\APT29\\IOC Snapshot - 2026-09-18\\apt29-iocs.json",
+        "record": 1,
+        "action": "corrected_type",
+        "from": "domain",
+        "to": "ipv4"
+      },
+      {
+        "file": "data\\APT29\\IOC Snapshot - 2026-09-18\\apt29-iocs.json",
+        "record": 24,
+        "action": "rejected",
+        "reason": "Invalid domain"
+      },
+      {
+        "file": "data\\APT29\\IOC Snapshot - 2026-09-18\\apt29-iocs.json",
+        "record": 272,
+        "action": "rejected",
+        "reason": "Invalid domain"
+      },
+      {
+        "file": "data\\APT29\\IOC Snapshot - 2026-09-18\\apt29-iocs.json",
+        "record": 273,
+        "action": "rejected",
+        "reason": "Invalid domain"
+      },
+      {
+        "file": "data\\APT29\\IOC Snapshot - 2026-09-18\\apt29-iocs.json",
+        "record": 404,
+        "action": "rejected",
+        "reason": "NCSC YARA string misclassified as a file hash; manual review required"
+      },
+      {
+        "file": "data\\APT29\\IOC Snapshot - 2026-09-18\\apt29-iocs.json",
+        "record": 422,
+        "action": "rejected",
+        "reason": "NCSC YARA string misclassified as a file hash; manual review required"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "rule_id": "SKW-APT29-001",
+      "title": "Encoded or decoded PowerShell content",
+      "severity": "high",
+      "confidence": "medium",
+      "description": "PowerShell used encoding or in-memory Base64 decoding, behavior documented in APT29 operations. Validate the decoded content and process ancestry.",
+      "attack_techniques": [
+        "T1059.001",
+        "T1027"
+      ],
+      "associated_groups": [
+        "G0016"
+      ],
+      "evidence": {
+        "event_id": 4688,
+        "timestamp": "2026-09-18T14:01:00Z",
+        "computer": "SYNTHETIC-LAB-1",
+        "channel": "Security",
+        "record_id": "2",
+        "source": "examples/ingestion-events.jsonl",
+        "source_record": "2",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "normalization_warnings": [],
+        "matched_fields": {
+          "command_line": "powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQ"
+        }
+      },
+      "event": {
+        "schema": "skinwalker.event.v1",
+        "event_id": 4688,
+        "timestamp": "2026-09-18T14:01:00Z",
+        "provider": "Microsoft-Windows-Security-Auditing",
+        "channel": "Security",
+        "computer": "SYNTHETIC-LAB-1",
+        "record_id": "2",
+        "data": {
+          "@timestamp": "2026-09-18T10:01:00-04:00",
+          "host.name": "SYNTHETIC-LAB-1",
+          "winlog.event_id": "4688",
+          "winlog.channel": "Security",
+          "winlog.provider_name": "Microsoft-Windows-Security-Auditing",
+          "winlog.record_id": "2",
+          "winlog.event_data.newprocessname": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "winlog.event_data.commandline": "powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQ",
+          "fixture": "Synthetic behavior match",
+          "newprocessname": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "commandline": "powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQ",
+          "command_line": "powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQ",
+          "process_name": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        },
+        "source": "examples/ingestion-events.jsonl",
+        "source_record": "2",
+        "raw": {
+          "@timestamp": "2026-09-18T10:01:00-04:00",
+          "host": {
+            "name": "SYNTHETIC-LAB-1"
+          },
+          "winlog": {
+            "event_id": 4688,
+            "channel": "Security",
+            "provider_name": "Microsoft-Windows-Security-Auditing",
+            "record_id": 2,
+            "event_data": {
+              "NewProcessName": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+              "CommandLine": "powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQ"
+            }
+          },
+          "fixture": "Synthetic behavior match"
+        },
+        "normalization_warnings": []
+      }
+    }
+  ],
+  "ioc_matches": [
+    {
+      "type": "ioc_match",
+      "indicator_type": "ipv4",
+      "value": "65.20.97.203",
+      "matched_fields": [
+        "source_ip"
+      ],
+      "sources": [
+        {
+          "indicator_id": "0b4114cf-2547-5af3-b717-c216843f90c0",
+          "value": "65.20.97.203",
+          "type": "ipv4",
+          "actor": "APT29",
+          "actor_aliases": [
+            "Midnight Blizzard",
+            "NOBELIUM",
+            "Cozy Bear",
+            "The Dukes",
+            "UNC2452"
+          ],
+          "malware_family": "",
+          "context": "Tunnel Endpoints | \uf0a7 65.20.97[.]203 | \uf0a7 65.21.51[.]58",
+          "source_id": "cisa_svr_teamcity_2023",
+          "publisher": "CISA, FBI, NSA, SKW, CERT.PL, and NCSC",
+          "source_title": "Russian SVR Exploiting JetBrains TeamCity CVE Globally",
+          "source_url": "https://www.cisa.gov/sites/default/files/2023-12/aa23-347a-russian-foreign-intelligence-service-svr-exploiting-jetbrains-teamcity-cve-globally_0.pdf",
+          "source_published_at": "2023-12-13T00:00:00Z",
+          "retrieved_at": "2026-09-18T18:01:54Z",
+          "first_seen": "",
+          "last_seen": "",
+          "confidence": 95,
+          "confidence_label": "high",
+          "lifecycle_status": "historical",
+          "active_status": "unknown",
+          "tlp": "TLP:CLEAR",
+          "tags": [
+            "apt29",
+            "cisa_svr_teamcity_2023"
+          ],
+          "intel_file": "data\\APT29\\IOC Snapshot - 2026-09-18\\apt29-iocs.json",
+          "intel_record": 397
+        }
+      ],
+      "assessment": "investigate; match does not establish actor attribution or current maliciousness",
+      "evidence": {
+        "schema": "skinwalker.event.v1",
+        "event_id": 4624,
+        "timestamp": "2026-09-18T14:00:00Z",
+        "provider": "",
+        "channel": "Security",
+        "computer": "SYNTHETIC-LAB-1",
+        "record_id": "1",
+        "data": {
+          "event_id": "4624",
+          "timestamp": "2026-09-18T14:00:00Z",
+          "computer": "SYNTHETIC-LAB-1",
+          "channel": "Security",
+          "record_id": "1",
+          "data.ipaddress": "65.20.97.203",
+          "data.subjectusername": "test-user",
+          "fixture": "Synthetic historical IOC match, not a real observation",
+          "ipaddress": "65.20.97.203",
+          "subjectusername": "test-user",
+          "subject_user": "test-user",
+          "source_ip": "65.20.97.203"
+        },
+        "source": "examples/ingestion-events.jsonl",
+        "source_record": "1",
+        "raw": {
+          "event_id": 4624,
+          "timestamp": "2026-09-18T14:00:00Z",
+          "computer": "SYNTHETIC-LAB-1",
+          "channel": "Security",
+          "record_id": "1",
+          "data": {
+            "IpAddress": "65.20.97.203",
+            "SubjectUserName": "test-user"
+          },
+          "fixture": "Synthetic historical IOC match, not a real observation"
+        },
+        "normalization_warnings": []
+      }
+    }
+  ],
+  "example_metadata": {
+    "synthetic": true,
+    "description": "Synthetic offline ingestion example; not an observed incident.",
+    "path_handling": "Repository-relative paths replace local workspace paths; evidence and source hashes are preserved."
+  }
+}
