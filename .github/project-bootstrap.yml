@@ -1,0 +1,400 @@
+version: 1
+source_of_truth: docs/build-plan.md
+
+# Declarative issue-board and label manifest (task WP-0.1).
+# The board rendering is intentionally offline: this manifest plus
+# tools/validate_issue_manifest.py are the auditable source for creating
+# GitHub issues and labels later, under human authorization.
+
+labels:
+  - name: type:requirement
+    color: "5319E7"
+    description: Top-level requirement from the approved build plan
+  - name: priority:p0
+    color: "B60205"
+    description: Required for a resume claim, safety, cost, or reproducibility
+  - name: area:skinwalker
+    color: "0E8A16"
+    description: Skinwalker threat-hunting agent
+  - name: area:azure
+    color: "1D76DB"
+    description: Azure SOC and vulnerability-management range
+  - name: area:program
+    color: "6F42C1"
+    description: Program-level setup and control work derived from WP-0
+  - name: status:ready
+    color: "C2E0C6"
+    description: Dependencies and inputs are available
+  - name: status:in-progress
+    color: "0052CC"
+    description: Branch created and implementation underway
+  - name: status:needs-review
+    color: "FBCA04"
+    description: Implementation and local verification are complete
+  - name: status:verified
+    color: "0E8A16"
+    description: Human reviewer has accepted clean-checkout verification and evidence; only a human may apply
+  - name: status:blocked
+    color: "D93F0B"
+    description: Requires missing input, authority, licensing, or external change
+  - name: status:deferred
+    color: "D4C5F9"
+    description: Intentionally excluded from the current release without representing completion
+  - name: status:failed
+    color: "B60205"
+    description: Acceptance tests did not pass and the task closed with evidence of failure
+  - name: evidence:required
+    color: "006B75"
+    description: Cannot close until evidence-ledger entries are human-verified
+
+boards:
+  - name: Skinwalker Requirements
+    filter_area: skinwalker
+    columns:
+      - name: Ready
+        label: status:ready
+      - name: In Progress
+        label: status:in-progress
+      - name: Needs Review
+        label: status:needs-review
+      - name: Verified
+        label: status:verified
+      - name: Blocked
+        label: status:blocked
+      - name: Deferred
+        label: status:deferred
+      - name: Failed
+        label: status:failed
+  - name: Azure Requirements
+    filter_area: azure
+    columns:
+      - name: Ready
+        label: status:ready
+      - name: In Progress
+        label: status:in-progress
+      - name: Needs Review
+        label: status:needs-review
+      - name: Verified
+        label: status:verified
+      - name: Blocked
+        label: status:blocked
+      - name: Deferred
+        label: status:deferred
+      - name: Failed
+        label: status:failed
+  - name: Program Setup
+    filter_area: program
+    columns:
+      - name: Ready
+        label: status:ready
+      - name: In Progress
+        label: status:in-progress
+      - name: Needs Review
+        label: status:needs-review
+      - name: Verified
+        label: status:verified
+      - name: Blocked
+        label: status:blocked
+      - name: Deferred
+        label: status:deferred
+      - name: Failed
+        label: status:failed
+
+# Program-level tasks are owned by the PROG-00 requirement below, so the
+# plan-level gate ("every task links to one requirement and one acceptance
+# test") holds for every work-package task with ZERO exclusions. This list is
+# kept strictly empty on purpose. The validator rejects every nonempty list:
+# all 57 WBS tasks must map to exactly one requirement.
+excluded_from_requirements: []
+
+requirements:
+  - id: PROG-00
+    title: Program setup and controls
+    area: program
+    priority: p0
+    work_packages:
+      - task: WP-0.1
+        acceptance: Issues exist for every SKW/AZ requirement, and every task links to one requirement and one acceptance test.
+        plan_verification: Every task links to one requirement and one acceptance test
+      - task: WP-0.2
+        acceptance: Branch, review, secret, fixture, and evidence rules appear in both repositories.
+        plan_verification: Policies appear in both repositories
+      - task: WP-0.3
+        acceptance: Ledger templates exist and a sample row validates required fields.
+        plan_verification: Sample row validates required fields
+      - task: WP-0.4
+        acceptance: Version and access report exists; no secrets are stored; subscription and trial status are recorded.
+        plan_verification: No secrets stored; subscription and trial status recorded
+
+  - id: SKW-01
+    title: Package and CLI
+    area: skinwalker
+    priority: p0
+    plan_anchor: skw-01-package-and-cli
+    work_packages:
+      - task: WP-1.1
+        acceptance: Clean virtual environment installation passes.
+        plan_verification: Clean virtual environment installation passes
+      - task: WP-1.2
+        acceptance: Invalid configuration and overwrite-prevention tests pass.
+        plan_verification: Invalid config and overwrite tests pass
+      - task: WP-1.3
+        acceptance: CLI smoke tests and documented exit-code tests pass.
+        plan_verification: CLI smoke tests pass
+
+  - id: SKW-02
+    title: Canonical event model
+    area: skinwalker
+    priority: p0
+    plan_anchor: skw-02-canonical-event-model
+    work_packages:
+      - task: WP-2.1
+        acceptance: Schema round-trip and invalid-data tests pass.
+        plan_verification: Round-trip and invalid-data tests pass
+
+  - id: SKW-03
+    title: Telemetry ingestion
+    area: skinwalker
+    priority: p0
+    plan_anchor: skw-03-telemetry-ingestion
+    work_packages:
+      - task: WP-2.2
+        acceptance: Valid and malformed JSON, JSONL, Sentinel, and Winlogbeat fixtures pass.
+        plan_verification: Valid and malformed fixtures pass
+      - task: WP-2.3
+        acceptance: Required Windows event fields and source locators are verified.
+        plan_verification: Required event fields and source locator verified
+      - task: WP-2.4
+        acceptance: Required Zeek log fixtures parse with documented warnings and provenance.
+        plan_verification: Connection, DNS, HTTP, TLS, file, SMB, and Kerberos fixtures pass as applicable
+      - task: WP-2.5
+        acceptance: Repeated runs produce stable hashes, counters, and run manifests.
+        plan_verification: Repeated run produces stable hashes and counts
+
+  - id: SKW-04
+    title: Threat-intelligence pipeline
+    area: skinwalker
+    priority: p0
+    plan_anchor: skw-04-threat-intelligence-pipeline
+    work_packages:
+      - task: WP-3.1
+        acceptance: At least 600 attributable source indicators have documented licenses and provenance.
+        plan_verification: At least 600 documented source indicators available
+      - task: WP-3.2
+        acceptance: Type-specific validation, defanging, and normalization tests pass.
+        plan_verification: Type-specific normalization tests pass
+      - task: WP-3.3
+        acceptance: Deduplication preserves every contributing source relationship.
+        plan_verification: Duplicate provenance remains intact
+      - task: WP-3.4
+        acceptance: Lifecycle-aware typed matching and incompatible-field negative tests pass.
+        plan_verification: Incompatible-field negative tests pass
+      - task: WP-3.5
+        acceptance: Source, invalid, duplicate, lifecycle, and searchable counts reconcile.
+        plan_verification: Raw and final counts reconcile
+      - task: WP-3.6
+        acceptance: Recorded TAXII and MISP fixture imports succeed without live credentials.
+        plan_verification: Recorded fixture import succeeds without live credentials
+
+  - id: SKW-05
+    title: Detection engineering
+    area: skinwalker
+    priority: p0
+    plan_anchor: skw-05-detection-engineering
+    work_packages:
+      - task: WP-4.1
+        acceptance: Ten selected techniques map to available telemetry.
+        plan_verification: Every technique maps to available telemetry
+      - task: WP-4.2
+        acceptance: Ten Sigma rules pass structural validation.
+        plan_verification: Sigma validation passes
+      - task: WP-4.3
+        acceptance: Malicious and benign fixtures have a complete expected-rule matrix.
+        plan_verification: Expected-rule matrix is complete
+      - task: WP-4.4
+        acceptance: Positive, negative, and missing-field detection tests pass.
+        plan_verification: Positive and negative tests pass
+      - task: WP-4.5
+        acceptance: SPL and KQL generation and structural validation pass.
+        plan_verification: Compilation and structural tests pass
+      - task: WP-4.6
+        acceptance: Unsupported conversion features fail visibly and are documented.
+        plan_verification: Unsupported features fail visibly rather than silently
+
+  - id: SKW-06
+    title: AI-assisted triage
+    area: skinwalker
+    priority: p0
+    plan_anchor: skw-06-ai-assisted-triage
+    work_packages:
+      - task: WP-5.1
+        acceptance: Structured triage output enforces citations, uncertainty, and alternatives.
+        plan_verification: Required citations and uncertainty fields enforced
+      - task: WP-5.2
+        acceptance: Core tests pass with a free mock provider and no hosted credentials.
+        plan_verification: Core tests run with mock provider for free
+      - task: WP-5.3
+        acceptance: Injection-like, redaction, and input-size fixtures pass.
+        plan_verification: Injection-like and secret fixtures pass
+      - task: WP-5.4
+        acceptance: AI failure cannot remove or alter deterministic findings.
+        plan_verification: AI failure cannot remove deterministic findings
+      - task: WP-5.5
+        acceptance: Provider, model, prompt version, usage, and validation failures are recorded.
+        plan_verification: Report identifies model, prompt version, usage, and failures
+
+  - id: SKW-07
+    title: Evaluation
+    area: skinwalker
+    priority: p0
+    plan_anchor: skw-07-evaluation
+    work_packages:
+      - task: WP-6.1
+        acceptance: Authorized Atomic scenarios retain expected telemetry and cleanup records.
+        plan_verification: Technique, cleanup, and expected telemetry recorded
+      - task: WP-6.2
+        acceptance: Every benign regression fixture is labeled and retained.
+        plan_verification: Every benign fixture is labeled and retained
+      - task: WP-6.3
+        acceptance: Controlled-test metrics reconcile with raw results and expose exclusions.
+        plan_verification: Counts reconcile with raw results
+
+  - id: SKW-08
+    title: Quality and delivery
+    area: skinwalker
+    priority: p0
+    plan_anchor: skw-08-quality-and-delivery
+    work_packages:
+      - task: WP-1.4
+        acceptance: Formatting, linting, type checks, tests, and secret scanning pass in CI.
+        plan_verification: Format, lint, type check, test, and secret scan pass
+      - task: WP-6.4
+        acceptance: Clean-checkout five-minute demonstration and tagged release pass.
+        plan_verification: Five-minute script and CI pass from clean checkout
+
+  - id: AZ-01
+    title: Cost and safety controls
+    area: azure
+    priority: p0
+    plan_anchor: az-01-cost-and-safety-controls
+    work_packages:
+      - task: WP-7.1
+        acceptance: Subscription, credit, trial, license, quota, and region constraints are recorded.
+        plan_verification: Trial clocks are not started prematurely
+      - task: WP-7.2
+        acceptance: Budget alerts, resource tags, expiration, and cost-ledger controls are verified.
+        plan_verification: Alerts and notification recipients verified
+      - task: WP-11.4
+        acceptance: Final cost ledger is closed and the unexpected-resource inventory is empty.
+        plan_verification: Unexpected billable-resource query returns zero
+
+  - id: AZ-02
+    title: Infrastructure as code
+    area: azure
+    priority: p0
+    plan_anchor: az-02-infrastructure-as-code
+    work_packages:
+      - task: WP-7.3
+        acceptance: Core Terraform plan and approved deployment succeed.
+        plan_verification: Plan and deployment succeed
+      - task: WP-7.4
+        acceptance: Windows and Linux hosts have restricted access and explicit deletion behavior.
+        plan_verification: Restricted access and deletion behavior verified
+      - task: WP-7.5
+        acceptance: WAF is disabled by default and its short-lived destroy workflow is tested.
+        plan_verification: Disabled by default; destroy workflow tested
+
+  - id: AZ-03
+    title: Telemetry
+    area: azure
+    priority: p0
+    plan_anchor: az-03-telemetry
+    work_packages:
+      - task: WP-8.1
+        acceptance: Required Azure Activity and available Entra fields are queryable.
+        plan_verification: Required fields and recent events recorded
+      - task: WP-8.2
+        acceptance: Controlled Windows, Sysmon, and Defender events appear with expected fields.
+        plan_verification: Controlled events appear with expected fields
+      - task: WP-8.3
+        acceptance: Controlled Linux events appear with expected fields.
+        plan_verification: Controlled events appear with expected fields
+      - task: WP-8.4
+        acceptance: Controlled SQLi and XSS WAF records appear before immediate teardown.
+        plan_verification: SQLi/XSS test records appear before teardown
+
+  - id: AZ-04
+    title: Detection coverage
+    area: azure
+    priority: p0
+    plan_anchor: az-04-detection-coverage
+    work_packages:
+      - task: WP-8.5
+        acceptance: Eight KQL rules have exported definitions, controlled results, and validation records.
+        plan_verification: Each rule has a result and validation record
+
+  - id: AZ-05
+    title: SOAR and analyst workflow
+    area: azure
+    priority: p0
+    plan_anchor: az-05-soar-and-analyst-workflow
+    work_packages:
+      - task: WP-9.1
+        acceptance: Incident history proves tag, assignment, and task automation.
+        plan_verification: Incident history proves execution
+      - task: WP-9.2
+        acceptance: A controlled incident executes the exported Logic App successfully.
+        plan_verification: Controlled incident executes successfully
+      - task: WP-9.3
+        acceptance: The analyst runbook references real entities, evidence, and closure steps.
+        plan_verification: Runbook references real entities and evidence
+
+  - id: AZ-06
+    title: Vulnerability management
+    area: azure
+    priority: p0
+    plan_anchor: az-06-vulnerability-management
+    work_packages:
+      - task: WP-10.1
+        acceptance: Scanner scope contains only explicitly authorized lab targets.
+        plan_verification: Only lab targets are included
+      - task: WP-10.2
+        acceptance: Baseline host and finding counts reconcile with the sanitized export.
+        plan_verification: Host and finding counts reconcile
+      - task: WP-10.3
+        acceptance: Fixed-fixture CVSS, EPSS, and KEV enrichment tests pass.
+        plan_verification: Fixed-fixture enrichment tests pass
+      - task: WP-10.4
+        acceptance: The documented priority formula exposes missing-data behavior.
+        plan_verification: Formula and missing-data behavior documented
+      - task: WP-10.5
+        acceptance: At least three remediations retain commands, ownership, and evidence.
+        plan_verification: Remediation commands and ownership recorded
+      - task: WP-10.6
+        acceptance: Rescan results honestly close or retain each selected finding.
+        plan_verification: Each selected finding is closed or honestly unresolved
+
+  - id: AZ-07
+    title: Governance evidence
+    area: azure
+    priority: p0
+    plan_anchor: az-07-governance-evidence
+    work_packages:
+      - task: WP-11.1
+        acceptance: POA&M records include evidence, owner, due date, residual risk, and validation.
+        plan_verification: Evidence, owner, due date, residual risk, and validation present
+
+  - id: AZ-08
+    title: Delivery
+    area: azure
+    priority: p0
+    plan_anchor: az-08-delivery
+    related_tasks:
+      - WP-11.4
+    work_packages:
+      - task: WP-11.2
+        acceptance: Architecture, documentation, limitations, and demo walkthrough pass review.
+        plan_verification: Clean reviewer walkthrough succeeds
+      - task: WP-11.3
+        acceptance: Every completed resume claim maps only to human-verified evidence.
+        plan_verification: No completed-language claim lacks evidence
