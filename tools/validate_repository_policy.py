@@ -59,12 +59,17 @@ REPOSITORY_PROFILES = {
     "skinwalker": {
         "area": "skinwalker",
         "plan_role": "canonical",
-        "local_adr": "docs/decisions/0003-dual-repository-policy-sync.md",
+        "local_files": (
+            "docs/decisions/0003-dual-repository-policy-sync.md",
+        ),
     },
     "azure-soc-range": {
         "area": "azure",
         "plan_role": "controlled-mirror",
-        "local_adr": "docs/decisions/0002-dual-repository-policy-sync.md",
+        "local_files": (
+            "docs/decisions/0002-dual-repository-policy-sync.md",
+            "README.md",
+        ),
     },
 }
 PROFILE_CONTROL_FIELDS = {
@@ -310,12 +315,40 @@ def _profile_spec(profile: dict | None) -> dict | None:
     return spec
 
 
+def _git_origin_repository(root: Path) -> str | None:
+    """Return the local Git origin repository name, without network access."""
+    try:
+        result = subprocess.run(
+            ["git", "config", "--get", "remote.origin.url"],
+            cwd=root, text=True, capture_output=True, check=False,
+        )
+    except OSError:
+        return None
+    if result.returncode != 0:
+        return None
+    value = result.stdout.strip()
+    if not value:
+        return None
+    name = value.rstrip("/").rsplit("/", 1)[-1]
+    if name.endswith(".git"):
+        name = name[:-4]
+    return name or None
+
+
+def _actual_repository_name(root: Path) -> str | None:
+    """Return the real checkout identity; synthetic trees are deliberately unbound."""
+    if root.resolve() != REPO_ROOT.resolve():
+        return None
+    origin = _git_origin_repository(root)
+    return origin or root.name
+
+
 def required_files(root: Path) -> tuple[str, ...]:
     profile, _ = _load_profile(root)
     spec = _profile_spec(profile)
     names = set((*SHARED_FILES, *COMMON_LOCAL_FILES, MANIFEST))
     if spec is not None:
-        names.add(spec["local_adr"])
+        names.update(spec["local_files"])
     return tuple(sorted(names))
 
 
@@ -383,6 +416,12 @@ def check_profile(root: Path) -> list[str]:
     if spec is None:
         choices = ", ".join(sorted(REPOSITORY_PROFILES))
         return [f"profile: repository must be one of: {choices}"]
+    actual_repository = _actual_repository_name(root)
+    if actual_repository is not None and actual_repository != repository:
+        findings.append(
+            "profile: repository must match actual repository identity "
+            f"{actual_repository!r}, got {repository!r}"
+        )
     expected = {
         "schema_version": 1,
         "repository": repository,
@@ -1052,12 +1091,18 @@ def evidence_report(validation_output: str, root: Path) -> str:
     repository = profile.get("repository", "unknown") if profile else "unknown"
     return (
         "WP-0.2 / PROG-00 repository policy validation\n"
-        "Date: 2026-11-04\n"
+        "Date: 2026-11-09\n"
         "Status: Collected\n"
         f"Repository: {repository}\n"
         f"Source repository: {SOURCE_REPOSITORY}\n"
         f"Source commit: {SOURCE_COMMIT}\n"
-        "Candidate state: uncommitted WP-0.2 working tree\n"
+        "Canonical hotfix baseline HEAD (operator-supplied): "
+        "139e05801ab54a08bf1dcc4246532fcb1672188e\n"
+        "Canonical prior WP-0.2 evidence remains preserved at that committed "
+        "HEAD; this regenerated Collected template covers only the compatibility "
+        "hotfix.\n"
+        "Candidate state: uncommitted post-commit compatibility hotfix "
+        "working tree\n"
         "Production command: python3 tools/validate_repository_policy.py "
         f"--report {REPORT_PATH}\n"
         "Scope: agent-local repository files only\n"
@@ -1069,17 +1114,36 @@ def evidence_report(validation_output: str, root: Path) -> str:
         "local verification coordinated by the manager under harness tool "
         "permissions, not manager-frontmatter shell execution.\n"
         "External services contacted: none\n"
+        "Peer repositories accessed: none\n"
         "Cloud resources changed: none\n"
         "Estimated incremental cost USD: 0\n"
         "Actual incremental cost USD: 0\n\n"
-        "Reopen reason: operator reported an Azure mirror P1 schema conflict "
-        "for missing paid-service and cost controls; no peer access was used.\n\n"
-        "Exceptional cycle authority: the human operator authorized a fourth "
-        "corrective cycle after the normal workflow correctly stopped at three "
-        "cycles with exactly three unresolved P1s. A later confirmed porcelain-"
-        "v1 grammar defect required one human-authorized fifth and final micro-"
-        "correction limited to that defect. No sixth cycle or broader authority "
-        "exists.\n\n"
+        "Operator-supplied Azure compatibility context\n"
+        "---------------------------------------------\n"
+        "The operator reported, without providing Azure repository access, that "
+        "the canonical suite fails as "
+        "test_real_skinwalker_profile_has_exact_cost_controls in the approved "
+        "azure-soc-range repository because the then-current test hard-codes "
+        "repository == skinwalker. The operator also reported that Azure "
+        "repository-specific required/allowed files omit README.md, which is an "
+        "approved Azure-local WP-0.2 file. This artifact records that context "
+        "only; no Azure or sibling repository was accessed, listed, read, "
+        "hashed, or validated.\n\n"
+        "Hotfix scope\n"
+        "------------\n"
+        "The profile model now carries an explicit local_files tuple per exact "
+        "approved identity. Skinwalker requires only its local ADR-0003. The "
+        "Azure profile requires its local ADR-0002 plus README.md. "
+        "required_files() adds every approved local file, and the non-Skinwalker "
+        "changed-path allowlist derives from required_files(). README.md remains "
+        "outside SHARED_FILES and the shared manifest. The real-repository "
+        "profile test is identity-generic and validates area, plan_role, and "
+        "exact cost control types and values for either approved identity. "
+        "The validator also binds the real repository profile to the local Git "
+        "origin repository name (or the checkout directory name when no origin "
+        "exists), so a canonical tree cannot switch to the Azure profile to "
+        "bypass corrective-scope and immutable-hash enforcement. Synthetic "
+        "trees remain unbound and cover both identities without Azure access.\n\n"
         "Agent-local validator result\n"
         "----------------------------\n"
         + validation_output
@@ -1099,45 +1163,29 @@ def evidence_report(validation_output: str, root: Path) -> str:
         "----------------------------------------\n"
         "NOT RECORDED BY THIS COMMAND. Append actual outcomes, including zero "
         "counts only when supported by command transcripts.\n\n"
-        "Narrow corrective-pass inventories\n"
-        "----------------------------------\n"
-        "NOT RECORDED BY THIS COMMAND. Append actual pre-correction and final "
-        "path/size/SHA-256 rows for all nine operator-authorized paths.\n\n"
+        "Hotfix path inventory\n"
+        "---------------------\n"
+        "NOT RECORDED BY THIS COMMAND. Append actual pre-edit and final "
+        "path/size/SHA-256 rows for the five operator-authorized hotfix paths.\n\n"
         "Immutable corrective-scope hash provenance and limitation\n"
         "---------------------------------------------------------\n"
-        "The ten disallowed canonical shared hashes come from the operator-"
-        "reviewed prior canonical manifest/controlled read observation. No "
-        "pre-edit shell transcript is claimed. Validator enforcement and local "
-        "mutation tests make these values deterministic now; the missing "
-        "historical shell transcript remains a visible residual limitation. "
-        "Together with .gitignore these form all eleven immutable paths. The "
-        ".gitignore hash 9a2d473bf7cba2e910d1f794b4a45fcc33500c0921efa7fe73319ad5e88a6d29 "
-        "comes from the controlled pre-correction local observation; no older "
-        "shell transcript is claimed.\n\n"
-        "Visible corrective-run limitation\n"
-        "---------------------------------\n"
-        "The earlier targeted run executed 31 tests and exited 1 with one failed "
-        "assertion caused by changed missing-file diagnostic wording. The test "
-        "expectation was corrected and later runs passed; this failure must stay "
-        "visible in assembled transcripts.\n\n"
+        "The eleven immutable paths remain .gitignore plus ten disallowed "
+        "canonical shared files. Their approved SHA-256 values are unchanged. "
+        "Historical transcript limitations disclosed by the prior WP-0.2 "
+        "candidate still apply; this hotfix does not invent older shells.\n\n"
         "Residual permission and report limitations\n"
         "------------------------------------------\n"
-        "Six Git prefix wildcard allows are operator-mandated. Ordered narrowing "
-        "denies are defense in depth, not proof that every Git/config/helper "
-        "execution path is impossible. Implementer/A-B-QA lexical denial review "
-        "is outside this nine-path pass. Atomic report replacement narrows but "
-        "cannot portably eliminate every final filesystem race window.\n\n"
-        "Noncanonical supplemental integrity run\n"
-        "---------------------------------------\n"
-        "Command: python3 -m unittest discover -s tests >/dev/null "
-        "2>.policy-test-tmp/corrective-manager/final-suite.err\n"
-        "Recorded result supplied by manager: exit 0; 86 tests in 0.625s.\n"
-        "Classification: redundant post-assembly noncanonical supplemental run.\n\n"
+        "Six operator-mandated preflight shell allows remain in place (three "
+        "Git prefix wildcards, two exact Git commands, and one shasum command). "
+        "Ordered narrowing denies are defense in depth, not proof that every "
+        "Git/config/helper execution path is impossible. Atomic report "
+        "replacement narrows but cannot portably eliminate every final "
+        "filesystem race window.\n\n"
         "Future human-operator actions (NOT RUN; NOT EVIDENCE)\n"
         "------------------------------------------------\n"
-        "1. Copy the canonical shared bundle to the peer repository.\n"
-        "2. Run real peer validation with explicit human confirmation.\n"
-        "3. Review both repositories and decide whether evidence is Verified.\n"
+        "1. Assemble actual hotfix command transcripts and inventories.\n"
+        "2. Review the canonical and Azure copies in the peer repository.\n"
+        "3. Decide whether evidence is Verified.\n"
         "No peer-repository result or cloud state is claimed here.\n"
     )
 

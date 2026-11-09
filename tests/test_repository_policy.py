@@ -28,6 +28,7 @@ from tools.validate_repository_policy import (  # noqa: E402
     SHELL_NARROWING_DENIES,
     SHARED_FILES,
     SYNTHETIC_ROOT,
+    check_changes,
     check_corrective_scope,
     check_format,
     check_immutable_index,
@@ -63,25 +64,66 @@ def copy_files(destination: Path, names=None) -> None:
         shutil.copy2(source, target)
 
 
+SYNTHETIC_AZURE_README = (
+    "# Synthetic Azure SOC range policy fixture\n"
+    "\n"
+    "Repository-local test fixture only. This file is not a shared policy file.\n"
+)
+
+
+def _local_adr(spec: dict) -> str:
+    for rel in spec["local_files"]:
+        if rel != "README.md":
+            return rel
+    raise AssertionError("approved profile has no local ADR")
+
+
 def configure_profile(root: Path, repository: str) -> None:
-    """Convert a synthetic tree to one of the two approved profile tuples."""
+    """Convert a synthetic tree between the two approved profile tuples."""
     profile_path = root / "policy/repository-profile.json"
     profile = json.loads(profile_path.read_text(encoding="utf-8"))
     current_spec = REPOSITORY_PROFILES.get(profile.get("repository"))
     target_spec = REPOSITORY_PROFILES[repository]
-    target_adr = root / target_spec["local_adr"]
-    if not target_adr.is_file():
-        if current_spec is None:
-            raise AssertionError("synthetic source profile has no approved identity")
-        source_adr = root / current_spec["local_adr"]
-        target_adr.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source_adr, target_adr)
+    if current_spec is None:
+        raise AssertionError("synthetic source profile has no approved identity")
+    source_adr = root / _local_adr(current_spec)
+    for rel in target_spec["local_files"]:
+        target = root / rel
+        if target.is_file():
+            continue
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if rel == "README.md":
+            target.write_text(SYNTHETIC_AZURE_README, encoding="utf-8")
+        else:
+            shutil.copy2(source_adr, target)
     profile.update({
         "repository": repository,
         "area": target_spec["area"],
         "plan_role": target_spec["plan_role"],
     })
     profile_path.write_text(json.dumps(profile, indent=2) + "\n", encoding="utf-8")
+
+
+def profile_identity_and_cost_findings(root: Path) -> list[str]:
+    """Identity-generic profile checks for either approved repository."""
+    profile = json.loads(
+        (root / "policy/repository-profile.json").read_text(encoding="utf-8")
+    )
+    repository = profile.get("repository")
+    if repository not in REPOSITORY_PROFILES:
+        return [f"profile: unapproved repository: {repository!r}"]
+    spec = REPOSITORY_PROFILES[repository]
+    findings = []
+    for key in ("area", "plan_role"):
+        if profile.get(key) != spec[key]:
+            findings.append(
+                f"profile: {key} must be {spec[key]!r}, got {profile.get(key)!r}"
+            )
+    for key, expected in PROFILE_CONTROL_FIELDS.items():
+        actual = profile.get(key)
+        if type(actual) is not type(expected) or actual != expected:
+            findings.append(f"profile: {key} must be {expected!r}, got {actual!r}")
+    return findings
 
 
 class TreeCase(unittest.TestCase):
@@ -105,14 +147,87 @@ class LocalPolicyTests(TreeCase):
     def test_required_files_present(self):
         self.assertEqual(check_required_files(self.root), [])
 
-    def test_real_skinwalker_profile_has_exact_cost_controls(self):
-        profile = json.loads(
-            (REPO_ROOT / "policy/repository-profile.json").read_text(encoding="utf-8")
+    def test_real_repository_profile_has_exact_identity_and_cost_controls(self):
+        self.assertEqual(profile_identity_and_cost_findings(REPO_ROOT), [])
+        self.assertEqual(check_profile(REPO_ROOT), [])
+
+    def test_synthetic_skinwalker_and_azure_profiles_have_exact_identity_and_cost_controls(self):
+        for repository in REPOSITORY_PROFILES:
+            with self.subTest(repository=repository):
+                configure_profile(self.root, repository)
+                self.assertEqual(check_profile(self.root), [])
+                self.assertEqual(
+                    profile_identity_and_cost_findings(self.root), []
+                )
+                profile = json.loads(
+                    (self.root / "policy/repository-profile.json").read_text(
+                        encoding="utf-8"
+                    )
+                )
+                self.assertEqual(profile["repository"], repository)
+
+    def test_real_repository_identity_binding_rejects_other_approved_profile(self):
+        for repository, origin in (
+            ("skinwalker", "skinwalker"),
+            ("azure-soc-range", "azure-soc-range"),
+        ):
+            with self.subTest(repository=repository):
+                configure_profile(self.root, repository)
+                with patch(
+                    "tools.validate_repository_policy.REPO_ROOT", self.root
+                ), patch(
+                    "tools.validate_repository_policy._git_origin_repository",
+                    return_value=origin,
+                ):
+                    self.assertEqual(check_profile(self.root), [])
+        configure_profile(self.root, "azure-soc-range")
+        with patch(
+            "tools.validate_repository_policy.REPO_ROOT", self.root
+        ), patch(
+            "tools.validate_repository_policy._git_origin_repository",
+            return_value="skinwalker",
+        ):
+            findings = check_profile(self.root)
+        self.assertTrue(any(
+            "actual repository identity" in value for value in findings
+        ), findings)
+
+    def test_azure_required_files_include_readme_and_azure_adr(self):
+        configure_profile(self.root, "azure-soc-range")
+        required = required_files(self.root)
+        self.assertIn("README.md", required)
+        self.assertIn(
+            "docs/decisions/0002-dual-repository-policy-sync.md", required
         )
-        self.assertEqual(profile["repository"], "skinwalker")
-        for key, expected in PROFILE_CONTROL_FIELDS.items():
-            self.assertIs(type(profile[key]), type(expected), key)
-            self.assertEqual(profile[key], expected, key)
+        self.assertNotIn("README.md", SHARED_FILES)
+        manifest_paths = [
+            line.split("  ", 1)[1]
+            for line in (self.root / MANIFEST).read_text(encoding="utf-8").splitlines()
+        ]
+        self.assertNotIn("README.md", manifest_paths)
+
+    def test_skinwalker_required_files_exclude_azure_readme(self):
+        configure_profile(self.root, "azure-soc-range")
+        self.assertTrue((self.root / "README.md").is_file())
+        (self.root / "README.md").unlink()
+        configure_profile(self.root, "skinwalker")
+        self.assertFalse((self.root / "README.md").exists())
+        required = required_files(self.root)
+        self.assertNotIn("README.md", required)
+        self.assertNotIn(
+            "docs/decisions/0002-dual-repository-policy-sync.md", required
+        )
+        self.assertIn(
+            "docs/decisions/0003-dual-repository-policy-sync.md", required
+        )
+
+    def test_missing_azure_readme_is_required_file_finding(self):
+        configure_profile(self.root, "azure-soc-range")
+        (self.root / "README.md").unlink()
+        self.assertTrue(any(
+            "required: missing or inaccessible file: README.md" in value
+            for value in check_required_files(self.root)
+        ))
 
     def test_format_passes(self):
         self.assertEqual(check_format(self.root), [])
@@ -152,6 +267,7 @@ class LocalPolicyTests(TreeCase):
     def test_synthetic_azure_profile_passes_without_shared_file_edits(self):
         configure_profile(self.root, "azure-soc-range")
         self.assertEqual(validate_tree(self.root), [])
+        self.assertEqual(check_secrets(self.root), [])
         profile = json.loads(
             (self.root / "policy/repository-profile.json").read_text(encoding="utf-8")
         )
@@ -216,6 +332,26 @@ class LocalPolicyTests(TreeCase):
                 write_report_atomic(self.root, REPORT_PATH, "replacement\n")
         self.assertEqual(report.read_bytes(), before)
         self.assertEqual(list(report.parent.glob(".wp02-report-*")), [])
+
+
+class ChangedPathAllowlistTests(TreeCase):
+    def setUp(self):
+        super().setUp()
+        configure_profile(self.root, "azure-soc-range")
+
+    def _check(self, paths: list[str]) -> list[str]:
+        with patch("tools.validate_repository_policy.changed_paths",
+                   return_value=(list(paths), [])):
+            return check_changes(self.root)
+
+    def test_azure_changed_path_allowlist_accepts_readme(self):
+        self.assertEqual(self._check(["README.md"]), [])
+
+    def test_azure_changed_path_allowlist_rejects_unrelated_path(self):
+        self.assertEqual(
+            self._check(["unrelated.txt"]),
+            ["changes: path outside WP-0.2 allowlist: unrelated.txt"],
+        )
 
 
 class PermissionBoundaryTests(TreeCase):

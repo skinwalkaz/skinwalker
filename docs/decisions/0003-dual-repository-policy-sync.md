@@ -123,6 +123,29 @@ hash from the failed attempt is authoritative or used in calculations.
     invalid; and a rename/copy marker in either XY position consumes its second
     NUL-delimited source path. No sixth cycle, broader refactor, additional path,
     or expanded operational authority is granted.
+20. After commit `139e05801ab54a08bf1dcc4246532fcb1672188e`, the operator
+    reported an Azure compatibility failure without granting Azure repository
+    access: the canonical suite hard-coded `repository == "skinwalker"` in the
+    then-current `test_real_skinwalker_profile_has_exact_cost_controls`, and
+    Azure-local required/allowed files omitted `README.md`. The profile model now
+    stores repository-specific `local_files`: Skinwalker keeps only its local
+    ADR-0003, while Azure requires its local ADR-0002 plus `README.md`.
+    `required_files()` adds every approved local file, and the non-Skinwalker
+    changed-path allowlist derives from it. `README.md` is not added to
+    `SHARED_FILES` or the shared manifest, and Skinwalker gains no README. The
+    real-repository profile test is identity-generic for either approved
+    identity and validates `area`, `plan_role`, and exact cost controls.
+21. Review of the first compatibility candidate identified a concrete
+    canonical-identity gap: an identity-generic real-profile test alone let a
+    Skinwalker tree select the approved Azure profile, which skips the
+    Skinwalker corrective-scope and immutable-hash branch. The validator now
+    binds the real repository profile to the local Git origin repository name
+    (falling back to the checkout directory name when no origin exists).
+    Synthetic policy trees remain unbound so the same canonical suite can run
+    in the approved Azure mirror. This is a local defense-in-depth identity
+    proxy, not an absolute sandbox: an actor able to rewrite both the profile
+    and the local Git origin could still mislabel a checkout. The generic test
+    retains the operator-required `area`, `plan_role`, and cost-control checks.
 
 ## Consequences
 

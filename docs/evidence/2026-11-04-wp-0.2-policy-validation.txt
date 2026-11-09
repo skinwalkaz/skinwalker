@@ -1,70 +1,148 @@
-# WP-0.2 / PROG-00 canonical corrective-pass evidence
-Date: 2026-11-04
+WP-0.2 / PROG-00 repository policy compatibility hotfix evidence
+Date: 2026-11-09
 Status: Collected
 Repository: skinwalker
+Source repository: skinwalkaz/skinwalker
+Profile source commit (unchanged): 63b39b809413ced3a0b3b58f3a24e96394f8f11a
+Canonical hotfix baseline HEAD: 139e05801ab54a08bf1dcc4246532fcb1672188e
 Branch: docs/prog-00-wp-0.2-repository-policies
-Baseline HEAD: 63b39b809413ced3a0b3b58f3a24e96394f8f11a
-Candidate state: uncommitted WP-0.2 working tree; staged inventory empty
+Candidate state: uncommitted post-commit compatibility hotfix working tree
 Working directory: /Users/ryantuley/Downloads/APT 29/skinwalker
-Execution attribution: OpenCode harness local verification coordinated by the manager under harness tool permissions; Python/test commands were not executed through manager-frontmatter shell permissions.
-Capture convention: stdout and stderr were captured separately and are reproduced below under explicit labels.
+Template production command: python3 tools/validate_repository_policy.py --report docs/evidence/2026-11-04-wp-0.2-policy-validation.txt
+Assembly method: the command above generated a Collected template; the manager then appended the actual command transcripts and inventories below and atomically replaced this artifact. The final artifact cannot embed its own final SHA-256; that binding is reported externally.
+Scope: agent-local repository files only
+Capture convention: stdout and stderr were captured separately for each command; the assembled transcript reproduces both streams under explicit labels and records the exit code.
+Execution attribution: Python and test commands are OpenCode harness local verification coordinated by the manager under harness tool permissions, not manager-frontmatter shell execution.
 External services contacted: none
+Peer repositories accessed: none
 Sibling repositories accessed: none
 Cloud resources changed: none
 Estimated incremental cost USD: 0
 Actual incremental cost USD: 0
 
-## Reopen reason, baseline, and fifth-cycle authority
+Prior evidence preservation
+-------------------------
+The committed artifact at `HEAD:docs/evidence/2026-11-04-wp-0.2-policy-validation.txt` is
+37,607 bytes with SHA-256 `cbc47c70469251fdb5b32a41421978417e3400607d8acbb6a78fc8103e55e73c`.
+It remains preserved in Git at commit `139e058`. The working-tree artifact was regenerated
+for this compatibility hotfix; this record does not overwrite Git history.
 
-The human operator reported an Azure mirror P1 schema conflict. This is operator-supplied context, not agent-observed Azure evidence. No Azure or sibling repository was accessed.
+Operator-supplied Azure compatibility context
+---------------------------------------------
+The operator reported, without providing Azure repository access, that the canonical suite
+fails as `test_real_skinwalker_profile_has_exact_cost_controls` in the approved
+`azure-soc-range` repository because the then-current test hard-codes
+`repository == "skinwalker"`. The operator also reported that Azure repository-specific
+required/allowed files omit `README.md`, which is an approved Azure-local WP-0.2 file.
+This artifact records that context only; no Azure or sibling repository was accessed,
+listed, read, hashed, or validated. No real peer result is claimed.
 
-`source_commit=63b39b809413ced3a0b3b58f3a24e96394f8f11a` identifies the verified branch baseline and does not claim this uncommitted candidate existed in that commit.
+Hotfix scope
+------------
+The profile model now carries an explicit `local_files` tuple per exact approved identity:
 
-The normal three-cycle workflow stopped with three unresolved P1s. The human operator then authorized one exceptional fourth cycle limited to immutable staged/index state, broad Git-log permission, and porcelain-v1 XY grammar. Final review of that candidate found one remaining concrete porcelain-v1 table defect. The human operator authorized one fifth and final micro-correction solely for that defect, superseding the earlier no-fifth statement only for that item. No sixth cycle, broader refactor, additional hardening, path expansion, commit, push, peer access, network access, or cloud activity is authorized.
+- `skinwalker`: `docs/decisions/0003-dual-repository-policy-sync.md` only; no README.
+- `azure-soc-range`: `docs/decisions/0002-dual-repository-policy-sync.md` plus `README.md`.
 
-## Fifth-cycle correction
+`required_files()` adds every approved local file for the exact repository/area/plan-role
+identity. The non-Skinwalker changed-path allowlist derives from `required_files()`, so
+Azure `README.md` is allowed while unrelated Azure paths remain rejected. Skinwalker keeps
+its existing corrective-scope behavior. `README.md` is not in `SHARED_FILES`, is not in the
+shared manifest, and is not required in Skinwalker. The real-repository profile test is
+identity-generic and validates repository membership, `area`, `plan_role`, and exact
+cost-control types and values for either approved identity.
 
-Authoritative porcelain-v1 behavior now accepts worktree-only ` M`, ` D`, ` T`, ` A`, ` R`, and ` C`; the operator-listed index states `M `, `MM`, `MT`, `MD`, `T `, `TM`, `TT`, `TD`, `A `, `AM`, `AT`, `AD`, `R `, `RM`, `RT`, `RD`, `C `, `CM`, `CT`, `CD`, and `D `; unmerged `DD`, `AU`, `UD`, `UA`, `DU`, `AA`, and `UU`; and special `??`. It rejects `!!`, `ZZ`, `?M`, `M?`, blank, removed `DM`, and generated undocumented combinations. A rename/copy marker in either XY position consumes and retains the second NUL-delimited source pathname; a missing source fails visibly in either position. Literal filenames, NUL framing, stable ordering, and corrective-scope checks are unchanged.
+The validator also binds the real repository profile to the local Git origin repository
+name, falling back to the checkout directory name when no origin exists. Synthetic policy
+trees remain unbound. This prevents a canonical Skinwalker tree from selecting the Azure
+profile to bypass corrective-scope and immutable-hash enforcement while keeping the same
+suite valid in the approved Azure mirror. The binding is a local defense-in-depth identity
+proxy, not an absolute sandbox; an actor able to rewrite both the profile and the local Git
+origin could still mislabel a checkout.
 
-## Corrective A/B inventory
+Review history
+--------------
+The first focused review pass found one concrete security P1: the identity-generic real
+test alone allowed the canonical tree to switch to the Azure profile, which skips the
+Skinwalker corrective-scope and immutable-hash branch. This candidate fixes that finding
+by binding the real profile to the local Git origin/checkout identity and adds a regression
+test. The P1 remains visible here because it was a real review finding, not a false
+positive. The final review gate is recorded in the completion report.
 
-A is the recorded pre-correction uncommitted candidate and cannot be checked out or rerun. B is the fifth-cycle candidate. The evidence-file B row is the generated pre-assembly template because an artifact cannot embed its own stable final hash; the completion report binds the assembled artifact externally.
-### A: pre-correction nine paths
+Agent-local validator result
+----------------------------
+MODE: local
+PASS: 0 findings
+
+Authoritative pre-edit inventory
+--------------------------------
+Measured by the manager from the Git object `HEAD:path` at the operator-supplied baseline
+`139e05801ab54a08bf1dcc4246532fcb1672188e`. These are committed-baseline measurements,
+not operator-supplied hashes.
+
 ```text
 relative_path	bytes	sha256
-.opencode/agents/manager.md	2432	06090db4dbc5bd21afcf2eb9a9a050b7e271c7efe16c2bdd314108f43546ffd5
-opencode.jsonc	1223	800b53172bf5ae8bff6b46052d55caadd43da59ebca94c46ffca4a9f923b5ce4
-tools/validate_repository_policy.py	19094	19d11dd2d448561f00a80bf92856aaf065d47782f77c3c14640a965b94843d6b
-tests/test_repository_policy.py	12022	7873dd67ee3fdd9928ced2b5414c3bf93daa5328a60bfd63effe9911b0f6a012
-docs/repository-policy.md	4826	3e21d1987e8d6238f3a58256be38f815d61b8823b485da4f2a7a6c5cf5e1f758
-policy/repository-profile.json	502	faad0e46a08de00bb4a5f4136aa99138a7cf805c1da3290666e70d6b6a39bf60
-policy/shared-files.sha256	1430	194b472411cfce100ba0a2c614bd126c8a2eaaf28157a0d2e750d1d62b6e6bab
-docs/decisions/0003-dual-repository-policy-sync.md	3350	f5ac8cbd7674c20a1df09237fd763c6f41a99cd8a25f13b04f14747e5c8c0869
-docs/evidence/2026-11-04-wp-0.2-policy-validation.txt	24685	ad9a8d8d436453aea4f1e671b0b2fa7d771cb5844b41c40a1a6c4c705ffbfdf5
-```
-### B: cycle-5 pre-assembly nine paths
-```text
-relative_path	bytes	sha256
-.opencode/agents/manager.md	4779	9af643ca1f26307f259b20461c15a102cbd454518a5a50e224202c4241ccd0b0
-opencode.jsonc	3422	529eb620b32c4a91db547507f161862651a3ec5eec7db4c3f1b0547241740e7a
 tools/validate_repository_policy.py	50841	c2650b6aea78748426aba286d6930e26e8f0eb073b31b976b5efac2901a0224a
 tests/test_repository_policy.py	41561	dacb6c6b728552914b38d977bf7aac12b83f7571169098bf336d18a25d0c883e
-docs/repository-policy.md	8922	dc4ccdc37fd7893108b3798af27f7f16ce5ef5b02b08a84d4444e40ef36bf108
-policy/repository-profile.json	672	81e4d430fb3918ef80da76d5ed79588e404d33454c769dd700c5e45a412a9012
 policy/shared-files.sha256	1430	bda941bb4c078d276012a21e2d6050f9f6d40ca241b50499c5d809794dd33bc9
 docs/decisions/0003-dual-repository-policy-sync.md	8870	740dd7cd70031aba777a2238b808a2de0654670d200f2df16816391413923b54
-docs/evidence/2026-11-04-wp-0.2-policy-validation.txt	4691	65a40c88f1b09da13be091ba063a4c70f2af8d577df5e5108ab174547896f374
+docs/evidence/2026-11-04-wp-0.2-policy-validation.txt	37607	cbc47c70469251fdb5b32a41421978417e3400607d8acbb6a78fc8103e55e73c
 ```
 
-### Cycle-5 path scope reconciliation
+Pre-assembly final candidate inventory and comparison
+-----------------------------------------------------
+Measured from the working tree after the hotfix and regenerated manifest, immediately
+before evidence assembly. The evidence row records the generated template, not the final
+assembled artifact; a file cannot embed its own stable final hash. The final artifact
+binding is measured after assembly and reported externally in the completion report.
+
 ```text
-nonpermitted_corrective_paths_unchanged=4/4
-permitted_cycle5_paths=5
+relative_path	bytes	sha256
+tools/validate_repository_policy.py	52537	eabc0d196cf0738aff45a9b6ac3caf40261bb476000901c3632b00f60a24abbe
+tests/test_repository_policy.py	46964	c526ec623141a111128303546ce40bc3119eedefd1d56414a5964eb0e8180285
+policy/shared-files.sha256	1430	e1d11cd63e266eb26407fe54ddf38dbd3d20b1d242cf297134165ae91c5f8e65
+docs/decisions/0003-dual-repository-policy-sync.md	10623	480d6a151deefe85f1b6c6f03c6ac4d60873503f43c8e930e355d60c44f3d839
+docs/evidence/2026-11-04-wp-0.2-policy-validation.txt	5026	fb3d35f075b323fa607de44b14231e751302a97ed11490389da97673ddbb47af
 ```
 
-This cycle permitted changes only to `tools/validate_repository_policy.py`, `tests/test_repository_policy.py`, `policy/shared-files.sha256`, `docs/decisions/0003-dual-repository-policy-sync.md`, and this evidence artifact. The other four corrective paths retained their cycle-4 bytes and hashes. Exactly 9 corrective paths remain authorized; 11 immutable paths (10 disallowed canonical shared files plus `.gitignore`) remain working-tree and staged/index hash-verified. Their historical hash observations lack older shell transcripts as previously disclosed.
+Comparison: all five authorized paths changed. `policy/shared-files.sha256` stayed 1,430
+bytes because only two digest lines changed. The evidence file was replaced by a
+5,026-byte template before this final assembly. No path outside the five
+authorized paths changed.
 
-## Canonical shared manifest
+Failures, retries, warnings, skips, and exclusions
+-------------------------------------------------
+- The implementer reported that the first post-edit targeted run failed four tests because
+  `policy/shared-files.sha256` still held the pre-edit hashes. The exact implementer command
+  and streams were not retained, so they are not reproduced or represented as a pass.
+  The implementer reported a successful rerun after regenerating the manifest. The manager
+  then independently ran the nine targeted tests below: 9 passed.
+- Manager independent verification: 9 targeted passed; 23 mutation/immutable passed;
+  132 full-suite passed; 0 failures, 0 errors, 0 skips; no warning lines appeared.
+- Expected negative diagnostics in the full-suite stderr are asserted behavior, not
+  failures: `test_report_cannot_overwrite_source_or_manifest` and
+  `test_report_outside_repository_is_input_error` intentionally exercise rejected report
+  paths and emit `INPUT ERROR` lines.
+- No third-party formatter, linter, static type checker, dependency scanner, or clean-checkout
+  smoke test was run. No dependency was added. The candidate is uncommitted and therefore
+  not clean-checkout reproducible.
+- Synthetic Azure-profile and changed-path tests use local fixtures and a mocked
+  `changed_paths`; they are not live Azure evidence. No real peer validation was run.
+
+Immutable corrective-scope hash provenance and limitation
+---------------------------------------------------------
+The eleven immutable paths remain `.gitignore` plus ten disallowed canonical shared files.
+Their approved SHA-256 values are unchanged. The manager verified 11/11 working-tree hashes.
+The staged/index check is conditional: with an empty staged inventory no index blob was
+inspected or hashed. The check reports the absence of staged changes and would hash an
+actual staged blob only if one existed. Historical transcript limitations disclosed by the
+prior WP-0.2 candidate still apply; this hotfix does not invent older shells.
+
+Canonical shared manifest
+-------------------------
+Regenerated from exactly 15 sorted `SHARED_FILES` entries and verified with
+`shasum -a 256 -c`; all 15 passed. `README.md` is absent by design.
+
 ```text
 a40d1cd91e6e958d537195b2ba52495518d8d63cf8dc85c79bdeae6781c701cb  .opencode/agents/ab-qa.md
 b028b1abf6ee2bdd46b19c4ffc0fc29c981868124bde63893eec133ff35c889f  .opencode/agents/implementer.md
@@ -79,31 +157,56 @@ ed08f939f992fc04684b103b2973d299ea45f465ba89efe712258cea524f76cc  AGENTS.md
 f0773e7e0537d79fe43847716b2bed775dcddbd014cbb0c91fc2d466e7866e4a  docs/decisions/0001-controlled-agent-workflow.md
 dc4ccdc37fd7893108b3798af27f7f16ce5ef5b02b08a84d4444e40ef36bf108  docs/repository-policy.md
 529eb620b32c4a91db547507f161862651a3ec5eec7db4c3f1b0547241740e7a  opencode.jsonc
-dacb6c6b728552914b38d977bf7aac12b83f7571169098bf336d18a25d0c883e  tests/test_repository_policy.py
-c2650b6aea78748426aba286d6930e26e8f0eb073b31b976b5efac2901a0224a  tools/validate_repository_policy.py
+c526ec623141a111128303546ce40bc3119eedefd1d56414a5964eb0e8180285  tests/test_repository_policy.py
+eabc0d196cf0738aff45a9b6ac3caf40261bb476000901c3632b00f60a24abbe  tools/validate_repository_policy.py
 ```
 
-The regenerated sorted manifest contains exactly 15 canonical files; all 15 passed SHA-256 verification.
+Residual permission and report limitations
+------------------------------------------
+Six operator-mandated preflight shell allows remain in place (three Git prefix wildcards,
+two exact Git commands, and one shasum command). Ordered narrowing denies are defense in
+depth, not proof that every Git/config/helper execution path is impossible.
+Implementer/A-B-QA lexical hardening remains outside this hotfix. Atomic report replacement
+narrows but cannot portably eliminate every final filesystem race window.
 
-## Independent cycle-5 verification transcripts
+Complete agent-local command transcripts
+---------------------------------------
+Unless noted, every command ran in `/Users/ryantuley/Downloads/APT 29/skinwalker`.
+`[stdout]` and `[stderr]` are separate streams. The exit code is from the actual process.
+
+### 00-pre-edit-inventory
+```text
+$ python3 -c 'from pathlib import Path; import hashlib, subprocess; paths=["tools/validate_repository_policy.py","tests/test_repository_policy.py","policy/shared-files.sha256","docs/decisions/0003-dual-repository-policy-sync.md","docs/evidence/2026-11-04-wp-0.2-policy-validation.txt"]; rows=[(p, subprocess.check_output(["git","show",f"HEAD:{p}"])) for p in paths]; text="relative_path\tbytes\tsha256\n"+"\n".join(f"{p}\t{len(d)}\t{hashlib.sha256(d).hexdigest()}" for p,d in rows)+"\n"; Path(".policy-test-tmp/manager-hotfix-cycle2-independent/pre-edit-inventory.tsv").write_text(text, encoding="utf-8"); print(text, end="")'
+[stdout]
+relative_path	bytes	sha256
+tools/validate_repository_policy.py	50841	c2650b6aea78748426aba286d6930e26e8f0eb073b31b976b5efac2901a0224a
+tests/test_repository_policy.py	41561	dacb6c6b728552914b38d977bf7aac12b83f7571169098bf336d18a25d0c883e
+policy/shared-files.sha256	1430	bda941bb4c078d276012a21e2d6050f9f6d40ca241b50499c5d809794dd33bc9
+docs/decisions/0003-dual-repository-policy-sync.md	8870	740dd7cd70031aba777a2238b808a2de0654670d200f2df16816391413923b54
+docs/evidence/2026-11-04-wp-0.2-policy-validation.txt	37607	cbc47c70469251fdb5b32a41421978417e3400607d8acbb6a78fc8103e55e73c
+[stderr]
+<empty>
+[exit] 0
+```
 
 ### 01-targeted
 ```text
-$ python3 -m unittest tests.test_repository_policy.ChangedPathParsingTests -v
+$ python3 -m unittest -v tests.test_repository_policy.LocalPolicyTests.test_real_repository_profile_has_exact_identity_and_cost_controls tests.test_repository_policy.LocalPolicyTests.test_synthetic_skinwalker_and_azure_profiles_have_exact_identity_and_cost_controls tests.test_repository_policy.LocalPolicyTests.test_real_repository_identity_binding_rejects_other_approved_profile tests.test_repository_policy.LocalPolicyTests.test_azure_required_files_include_readme_and_azure_adr tests.test_repository_policy.LocalPolicyTests.test_skinwalker_required_files_exclude_azure_readme tests.test_repository_policy.LocalPolicyTests.test_missing_azure_readme_is_required_file_finding tests.test_repository_policy.LocalPolicyTests.test_synthetic_azure_profile_passes_without_shared_file_edits tests.test_repository_policy.ChangedPathAllowlistTests.test_azure_changed_path_allowlist_accepts_readme tests.test_repository_policy.ChangedPathAllowlistTests.test_azure_changed_path_allowlist_rejects_unrelated_path
 [stdout]
 <empty>
 [stderr]
-test_copy_retains_source_and_destination (tests.test_repository_policy.ChangedPathParsingTests.test_copy_retains_source_and_destination) ... ok
-test_documented_xy_status_table_is_accepted (tests.test_repository_policy.ChangedPathParsingTests.test_documented_xy_status_table_is_accepted) ... ok
-test_malformed_nul_records_fail_visibly (tests.test_repository_policy.ChangedPathParsingTests.test_malformed_nul_records_fail_visibly) ... ok
-test_ordinary_spaces_literal_arrow_and_quoted_looking_paths (tests.test_repository_policy.ChangedPathParsingTests.test_ordinary_spaces_literal_arrow_and_quoted_looking_paths) ... ok
-test_rename_copy_marker_in_either_position_consumes_source (tests.test_repository_policy.ChangedPathParsingTests.test_rename_copy_marker_in_either_position_consumes_source) ... ok
-test_rename_retains_out_of_scope_source_and_allowed_destination (tests.test_repository_policy.ChangedPathParsingTests.test_rename_retains_out_of_scope_source_and_allowed_destination) ... ok
-test_status_command_failure_is_visible (tests.test_repository_policy.ChangedPathParsingTests.test_status_command_failure_is_visible) ... ok
-test_unknown_impossible_and_ignored_xy_statuses_are_rejected (tests.test_repository_policy.ChangedPathParsingTests.test_unknown_impossible_and_ignored_xy_statuses_are_rejected) ... ok
+test_real_repository_profile_has_exact_identity_and_cost_controls (tests.test_repository_policy.LocalPolicyTests.test_real_repository_profile_has_exact_identity_and_cost_controls) ... ok
+test_synthetic_skinwalker_and_azure_profiles_have_exact_identity_and_cost_controls (tests.test_repository_policy.LocalPolicyTests.test_synthetic_skinwalker_and_azure_profiles_have_exact_identity_and_cost_controls) ... ok
+test_real_repository_identity_binding_rejects_other_approved_profile (tests.test_repository_policy.LocalPolicyTests.test_real_repository_identity_binding_rejects_other_approved_profile) ... ok
+test_azure_required_files_include_readme_and_azure_adr (tests.test_repository_policy.LocalPolicyTests.test_azure_required_files_include_readme_and_azure_adr) ... ok
+test_skinwalker_required_files_exclude_azure_readme (tests.test_repository_policy.LocalPolicyTests.test_skinwalker_required_files_exclude_azure_readme) ... ok
+test_missing_azure_readme_is_required_file_finding (tests.test_repository_policy.LocalPolicyTests.test_missing_azure_readme_is_required_file_finding) ... ok
+test_synthetic_azure_profile_passes_without_shared_file_edits (tests.test_repository_policy.LocalPolicyTests.test_synthetic_azure_profile_passes_without_shared_file_edits) ... ok
+test_azure_changed_path_allowlist_accepts_readme (tests.test_repository_policy.ChangedPathAllowlistTests.test_azure_changed_path_allowlist_accepts_readme) ... ok
+test_azure_changed_path_allowlist_rejects_unrelated_path (tests.test_repository_policy.ChangedPathAllowlistTests.test_azure_changed_path_allowlist_rejects_unrelated_path) ... ok
 
 ----------------------------------------------------------------------
-Ran 8 tests in 0.016s
+Ran 9 tests in 0.179s
 
 OK
 [exit] 0
@@ -111,7 +214,7 @@ OK
 
 ### 02-mutations
 ```text
-$ python3 -m unittest tests.test_repository_policy.MutationTests tests.test_repository_policy.ImmutableIndexTests -v
+$ python3 -m unittest -v tests.test_repository_policy.MutationTests tests.test_repository_policy.ImmutableIndexTests
 [stdout]
 <empty>
 [stderr]
@@ -140,7 +243,7 @@ test_staged_deletion_is_rejected (tests.test_repository_policy.ImmutableIndexTes
 test_staged_executable_or_type_replacement_mode_is_rejected (tests.test_repository_policy.ImmutableIndexTests.test_staged_executable_or_type_replacement_mode_is_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 23 tests in 0.180s
+Ran 23 tests in 0.189s
 
 OK
 [exit] 0
@@ -240,6 +343,8 @@ test_wp11_4_primary_is_az01_and_az08_cross_references (test_issue_manifest.RealR
 test_missing_manifest_file_exits_two (test_issue_manifest.UsageAndInputErrors.test_missing_manifest_file_exits_two) ... ok
 test_missing_plan_file_exits_two (test_issue_manifest.UsageAndInputErrors.test_missing_plan_file_exits_two) ... ok
 test_wrong_argument_count_exits_two (test_issue_manifest.UsageAndInputErrors.test_wrong_argument_count_exits_two) ... ok
+test_azure_changed_path_allowlist_accepts_readme (test_repository_policy.ChangedPathAllowlistTests.test_azure_changed_path_allowlist_accepts_readme) ... ok
+test_azure_changed_path_allowlist_rejects_unrelated_path (test_repository_policy.ChangedPathAllowlistTests.test_azure_changed_path_allowlist_rejects_unrelated_path) ... ok
 test_copy_retains_source_and_destination (test_repository_policy.ChangedPathParsingTests.test_copy_retains_source_and_destination) ... ok
 test_documented_xy_status_table_is_accepted (test_repository_policy.ChangedPathParsingTests.test_documented_xy_status_table_is_accepted) ... ok
 test_malformed_nul_records_fail_visibly (test_repository_policy.ChangedPathParsingTests.test_malformed_nul_records_fail_visibly) ... ok
@@ -258,14 +363,17 @@ test_staged_deletion_is_rejected (test_repository_policy.ImmutableIndexTests.tes
 test_staged_executable_or_type_replacement_mode_is_rejected (test_repository_policy.ImmutableIndexTests.test_staged_executable_or_type_replacement_mode_is_rejected) ... ok
 test_atomic_report_failure_preserves_target_and_cleans_temp (test_repository_policy.LocalPolicyTests.test_atomic_report_failure_preserves_target_and_cleans_temp) ... ok
 test_atomic_report_write_replaces_only_approved_regular_target (test_repository_policy.LocalPolicyTests.test_atomic_report_write_replaces_only_approved_regular_target) ... ok
+test_azure_required_files_include_readme_and_azure_adr (test_repository_policy.LocalPolicyTests.test_azure_required_files_include_readme_and_azure_adr) ... ok
 test_default_cli_passes (test_repository_policy.LocalPolicyTests.test_default_cli_passes) ... ok
 test_evidence_template_reserves_unrecorded_sections (test_repository_policy.LocalPolicyTests.test_evidence_template_reserves_unrecorded_sections) ... ok
 test_format_passes (test_repository_policy.LocalPolicyTests.test_format_passes) ... ok
 test_manifest_exactly_matches_all_shared_files (test_repository_policy.LocalPolicyTests.test_manifest_exactly_matches_all_shared_files) ... ok
+test_missing_azure_readme_is_required_file_finding (test_repository_policy.LocalPolicyTests.test_missing_azure_readme_is_required_file_finding) ... ok
 test_missing_file_is_finding (test_repository_policy.LocalPolicyTests.test_missing_file_is_finding) ... ok
 test_obvious_secret_shape_is_detected_in_synthetic_tree (test_repository_policy.LocalPolicyTests.test_obvious_secret_shape_is_detected_in_synthetic_tree) ... ok
+test_real_repository_identity_binding_rejects_other_approved_profile (test_repository_policy.LocalPolicyTests.test_real_repository_identity_binding_rejects_other_approved_profile) ... ok
 test_real_repository_passes_local_policy (test_repository_policy.LocalPolicyTests.test_real_repository_passes_local_policy) ... ok
-test_real_skinwalker_profile_has_exact_cost_controls (test_repository_policy.LocalPolicyTests.test_real_skinwalker_profile_has_exact_cost_controls) ... ok
+test_real_repository_profile_has_exact_identity_and_cost_controls (test_repository_policy.LocalPolicyTests.test_real_repository_profile_has_exact_identity_and_cost_controls) ... ok
 test_report_cannot_overwrite_source_or_manifest (test_repository_policy.LocalPolicyTests.test_report_cannot_overwrite_source_or_manifest) ... INPUT ERROR: report path must be exactly docs/evidence/2026-11-04-wp-0.2-policy-validation.txt
 INPUT ERROR: report path must be exactly docs/evidence/2026-11-04-wp-0.2-policy-validation.txt
 ok
@@ -275,7 +383,9 @@ test_report_symlink_is_rejected_without_reading_target (test_repository_policy.L
 test_required_files_present (test_repository_policy.LocalPolicyTests.test_required_files_present) ... ok
 test_required_policy_symlink_is_rejected_without_reading_target (test_repository_policy.LocalPolicyTests.test_required_policy_symlink_is_rejected_without_reading_target) ... ok
 test_secret_mode_passes_real_explicit_files (test_repository_policy.LocalPolicyTests.test_secret_mode_passes_real_explicit_files) ... ok
+test_skinwalker_required_files_exclude_azure_readme (test_repository_policy.LocalPolicyTests.test_skinwalker_required_files_exclude_azure_readme) ... ok
 test_synthetic_azure_profile_passes_without_shared_file_edits (test_repository_policy.LocalPolicyTests.test_synthetic_azure_profile_passes_without_shared_file_edits) ... ok
+test_synthetic_skinwalker_and_azure_profiles_have_exact_identity_and_cost_controls (test_repository_policy.LocalPolicyTests.test_synthetic_skinwalker_and_azure_profiles_have_exact_identity_and_cost_controls) ... ok
 test_changed_plan_byte_is_finding (test_repository_policy.MutationTests.test_changed_plan_byte_is_finding) ... ok
 test_changed_shared_byte_fails_manifest (test_repository_policy.MutationTests.test_changed_shared_byte_fails_manifest) ... ok
 test_changing_each_exact_cost_control_value_fails_for_both_profiles (test_repository_policy.MutationTests.test_changing_each_exact_cost_control_value_fails_for_both_profiles) ... ok
@@ -320,7 +430,7 @@ test_synthetic_peer_missing_file_is_finding (test_repository_policy.SyntheticPee
 test_synthetic_peer_symlink_escape_is_rejected_without_reading_target (test_repository_policy.SyntheticPeerDriftTests.test_synthetic_peer_symlink_escape_is_rejected_without_reading_target) ... ok
 
 ----------------------------------------------------------------------
-Ran 125 tests in 1.403s
+Ran 132 tests in 1.402s
 
 OK
 [exit] 0
@@ -361,9 +471,9 @@ PASS: 0 findings
 
 ### 09-manifest-regenerate
 ```text
-$ python3 -c from pathlib import Path; import hashlib; from tools.validate_repository_policy import SHARED_FILES; root=Path("."); rows=[f"{hashlib.sha256((root/p).read_bytes()).hexdigest()}  {p}" for p in sorted(SHARED_FILES)]; (root/"policy/shared-files.sha256").write_text("\n".join(rows)+"\n", encoding="utf-8")
+$ python3 -c 'from pathlib import Path; import hashlib; from tools.validate_repository_policy import SHARED_FILES; root=Path("."); rows=[f"{hashlib.sha256((root/p).read_bytes()).hexdigest()}  {p}" for p in sorted(SHARED_FILES)]; assert len(rows)==15; Path("policy/shared-files.sha256").write_text("\n".join(rows)+"\n", encoding="utf-8"); print(f"manifest_entries={len(rows)}")'
 [stdout]
-<empty>
+manifest_entries=15
 [stderr]
 <empty>
 [exit] 0
@@ -395,10 +505,10 @@ tools/validate_repository_policy.py: OK
 
 ### 11-immutable
 ```text
-$ python3 -c from pathlib import Path; import hashlib; from tools.validate_repository_policy import CORRECTIVE_IMMUTABLE_HASHES, check_immutable_index; root=Path("."); bad=[p for p,h in sorted(CORRECTIVE_IMMUTABLE_HASHES.items()) if hashlib.sha256((root/p).read_bytes()).hexdigest()!=h]; idx=check_immutable_index(root); assert not bad and not idx, (bad,idx); print(f"immutable_working_tree={len(CORRECTIVE_IMMUTABLE_HASHES)}/{len(CORRECTIVE_IMMUTABLE_HASHES)}"); print("immutable_staged_index=PASS")
+$ python3 -c 'from pathlib import Path; import hashlib; from tools.validate_repository_policy import CORRECTIVE_IMMUTABLE_HASHES, check_immutable_index; root=Path("."); bad=[p for p,h in sorted(CORRECTIVE_IMMUTABLE_HASHES.items()) if hashlib.sha256((root/p).read_bytes()).hexdigest()!=h]; idx=check_immutable_index(root); assert not bad and not idx, (bad,idx); print("immutable_working_tree=11/11"); print("immutable_staged_index_conditional=PASS")'
 [stdout]
 immutable_working_tree=11/11
-immutable_staged_index=PASS
+immutable_staged_index_conditional=PASS
 [stderr]
 <empty>
 [exit] 0
@@ -414,38 +524,64 @@ $ git diff --check
 [exit] 0
 ```
 
-### 13-working-tree
+### 13-readme-manifest-check
 ```text
-$ git status --short --branch --untracked-files=all
+$ python3 -c 'from pathlib import Path; rows=[line.split("  ",1)[1] for line in Path("policy/shared-files.sha256").read_text(encoding="utf-8").splitlines()]; assert "README.md" not in rows, rows; print("readme_in_shared_manifest=no"); print(f"manifest_entries={len(rows)}")'
+[stdout]
+readme_in_shared_manifest=no
+manifest_entries=15
+[stderr]
+<empty>
+[exit] 0
+```
+
+### 14-pre-assembly-inventory
+```text
+$ python3 -c 'from pathlib import Path; import hashlib; paths=["tools/validate_repository_policy.py","tests/test_repository_policy.py","policy/shared-files.sha256","docs/decisions/0003-dual-repository-policy-sync.md","docs/evidence/2026-11-04-wp-0.2-policy-validation.txt"]; root=Path("."); rows=[(p,(root/p).read_bytes()) for p in paths]; text="relative_path\tbytes\tsha256\n"+"\n".join(f"{p}\t{len(d)}\t{hashlib.sha256(d).hexdigest()}" for p,d in rows)+"\n"; Path(".policy-test-tmp/manager-hotfix-cycle2-independent/pre-assembly-inventory.tsv").write_text(text, encoding="utf-8"); print(text, end="")'
+[stdout]
+relative_path	bytes	sha256
+tools/validate_repository_policy.py	52537	eabc0d196cf0738aff45a9b6ac3caf40261bb476000901c3632b00f60a24abbe
+tests/test_repository_policy.py	46964	c526ec623141a111128303546ce40bc3119eedefd1d56414a5964eb0e8180285
+policy/shared-files.sha256	1430	e1d11cd63e266eb26407fe54ddf38dbd3d20b1d242cf297134165ae91c5f8e65
+docs/decisions/0003-dual-repository-policy-sync.md	10623	480d6a151deefe85f1b6c6f03c6ac4d60873503f43c8e930e355d60c44f3d839
+docs/evidence/2026-11-04-wp-0.2-policy-validation.txt	5026	fb3d35f075b323fa607de44b14231e751302a97ed11490389da97673ddbb47af
+[stderr]
+<empty>
+[exit] 0
+```
+
+### 15-pre-assembly-status
+```text
+$ git status --porcelain=v1 -b --untracked-files=all
 [stdout]
 ## docs/prog-00-wp-0.2-repository-policies
- M .gitignore
-?? .opencode/agents/ab-qa.md
-?? .opencode/agents/implementer.md
-?? .opencode/agents/manager.md
-?? .opencode/agents/review/correctness.md
-?? .opencode/agents/review/evidence.md
-?? .opencode/agents/review/security.md
-?? .opencode/commands/task-start.md
-?? AGENTS.md
-?? docs/agent-workflow.md
-?? docs/decisions/0001-controlled-agent-workflow.md
-?? docs/decisions/0003-dual-repository-policy-sync.md
-?? docs/evidence/2026-11-04-wp-0.2-policy-validation.txt
-?? docs/repository-policy.md
-?? opencode.jsonc
-?? policy/repository-profile.json
-?? policy/shared-files.sha256
-?? tests/test_repository_policy.py
-?? tools/validate_repository_policy.py
+ M docs/decisions/0003-dual-repository-policy-sync.md
+ M docs/evidence/2026-11-04-wp-0.2-policy-validation.txt
+ M policy/shared-files.sha256
+ M tests/test_repository_policy.py
+ M tools/validate_repository_policy.py
 [stderr]
 <empty>
 [exit] 0
 ```
 
-### 14-staged-inventory
+### 16-pre-assembly-diff-name-status
 ```text
-$ git diff --cached --name-status -z
+$ git diff --name-status
+[stdout]
+M	docs/decisions/0003-dual-repository-policy-sync.md
+M	docs/evidence/2026-11-04-wp-0.2-policy-validation.txt
+M	policy/shared-files.sha256
+M	tests/test_repository_policy.py
+M	tools/validate_repository_policy.py
+[stderr]
+<empty>
+[exit] 0
+```
+
+### 17-pre-assembly-staged
+```text
+$ git diff --cached --name-status
 [stdout]
 <empty>
 [stderr]
@@ -453,7 +589,7 @@ $ git diff --cached --name-status -z
 [exit] 0
 ```
 
-### 15-branch
+### 18-branch
 ```text
 $ git branch --show-current
 [stdout]
@@ -463,50 +599,57 @@ docs/prog-00-wp-0.2-repository-policies
 [exit] 0
 ```
 
-### 16-head
+### 19-head
 ```text
 $ git rev-parse HEAD
 [stdout]
-63b39b809413ced3a0b3b58f3a24e96394f8f11a
+139e05801ab54a08bf1dcc4246532fcb1672188e
 [stderr]
 <empty>
 [exit] 0
 ```
 
-## Prior failures and review history
+### 20-readme-absence
+```text
+$ sh -c 'test ! -e README.md && echo "skinwalker_readme=absent"'
+[stdout]
+skinwalker_readme=absent
+[stderr]
+<empty>
+[exit] 0
+```
 
-- An earlier targeted run of 31 tests exited 1 because one assertion expected superseded diagnostic wording. Its exact command transcript was not retained; no unsupported timing or command is claimed. Later runs passed; that failure is not represented as a pass.
-- Review cycles 1 through 3 and their P1 findings are recorded in ADR-0003. The third cycle stopped with immutable staged/index, broad Git-log, and status-grammar P1s. The fourth cycle addressed them.
-- Final correctness review of the fourth-cycle candidate identified the remaining porcelain-v1 table defect: missing ` A`, ` R`, ` C`, incorrect `DM`, and second-position rename/copy source handling. The human operator authorized this fifth and final micro-correction only for that defect.
-- A prior 86-test supplemental run belongs to an earlier candidate and is not final evidence.
+Post-assembly verification
+-----------------------------
+After the main assembly, the manager reran the following checks. Full stdout, stderr,
+command, and exit files are retained as `post-*` files in
+`.policy-test-tmp/manager-hotfix-cycle2-independent/`; the table records the observed
+results. The artifact was checked again after this section was appended, with the same
+PASS results. A file cannot embed its own final SHA-256; the final byte count and SHA-256
+are recorded in the completion report and final response.
 
-## Measured results and exclusions
+| Check | Observed result |
+|---|---|
+| format | PASS, 0 findings |
+| local policy | PASS, 0 findings |
+| secret shape | PASS, 0 findings |
+| full suite | 132 tests, OK; 0 failures, 0 errors, 0 skips |
+| shared manifest | 15/15 OK |
+| immutable working tree | 11/11 OK |
+| staged/index state | conditional check passed; staged inventory empty |
+| `git diff --check` | exit 0, no output |
+| status | exactly five modified paths; no untracked or staged files |
+| branch / HEAD | expected branch; `139e05801ab54a08bf1dcc4246532fcb1672188e` |
+| Skinwalker README | absent |
 
-- Changed-path parsing tests: 8 passed.
-- Mutation and immutable-index failure-path tests: 23 passed.
-- Complete repository suite: 125 passed.
-- Independent failures: 0; errors: 0; skips: 0; warnings: 0.
-- Expected negative CLI diagnostics in test stderr are asserted behavior, not failures.
-- Format: PASS, 0 findings.
-- Python compilation: exit 0, no output.
-- Local policy: PASS, 0 findings.
-- Secret-shape check: PASS, 0 findings; this narrow check is not proof no secret exists.
-- Shared manifest: 15/15 OK. Immutable working tree: 11/11. Immutable staged/index: PASS. Staged inventory: empty.
-- `git diff --check`: exit 0.
-- Third-party formatter, linter, type checker, dependency scanner, and clean-checkout smoke test were not run. No dependency was added, and the uncommitted candidate is not clean-checkout reproducible.
-- Synthetic Azure-profile and peer tests are local fixtures, not live Azure or real peer evidence.
+The pre-assembly template was 5,026 bytes with SHA-256
+`fb3d35f075b323fa607de44b14231e751302a97ed11490389da97673ddbb47af`.
 
-## Residual limitations
-
-- Operator-mandated `git status*` and `git diff*` prefix permissions remain defense-in-depth controls, not proof against every Git helper/configuration path. Git log has no broad allow.
-- Atomic report replacement reduces but cannot portably eliminate every filesystem race.
-- Immutable implementer/A-B-QA lexical hardening remains outside this nine-path pass.
-- `REPOSITORY_POLICY_HUMAN_PEER_VALIDATION` records intent, not authentication.
-
-## Human-only actions not run
-
-- No canonical file was copied to Azure; no real peer validation ran.
-- No commit, push, merge, reset, discard, network, GitHub, credential, Azure, Terraform, cloud, paid-service, attack-simulation, sixth cycle, or WP-0.3 operation occurred.
-- A human must copy/review the canonical bundle, run real peer validation, and decide whether evidence becomes Verified.
+Future human-operator actions (NOT RUN; NOT EVIDENCE)
+-----------------------------------------------------
+1. Review and commit the canonical hotfix and recopy the refreshed canonical bundle.
+2. Run real peer validation in the Azure repository with explicit human authorization.
+3. Review both repositories and decide whether this evidence becomes Verified.
+No Azure, peer-repository, cloud, credential, or paid-service result is claimed here.
 
 Evidence status remains Collected.
