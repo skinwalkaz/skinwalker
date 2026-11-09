@@ -6,3 +6,10 @@
 
 # Never add collected executable or script payloads as malware samples.
 /data/raw/**/malware-binaries/
+
+# Generated test bytecode.
+__pycache__/
+*.pyc
+
+# Repository-local synthetic peer trees and generated policy test output.
+/.policy-test-tmp/

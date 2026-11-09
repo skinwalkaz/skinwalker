@@ -1,0 +1,324 @@
+# WP-0.1 validation evidence (final human-review corrections)
+## Generated: 2026-11-04T20:48:13Z (UTC)
+## Task status: Verified
+## Evidence status: Verified
+
+## 0. Git-state transcript
+```text
+$ git rev-parse --short HEAD
+67f251f
+$ git branch --show-current
+feat/wp-0.1-issue-structure
+$ git merge-base main feat/wp-0.1-issue-structure
+67f251fa76938f0d8ab59bdba0104e23ebf3db6a
+$ git status --porcelain
+ M .gitignore
+?? .github/
+?? .opencode/
+?? AGENTS.md
+?? docs/agent-workflow.md
+?? docs/build-plan.md
+?? docs/decisions/
+?? docs/evidence/
+?? opencode.jsonc
+?? tests/
+?? tools/
+```
+Candidate B is the dirty working tree on feat/wp-0.1-issue-structure at HEAD 67f251f; no task commit exists.
+
+## 1. Targeted final-correction tests
+Exact command:
+```text
+$ python3 -m unittest tests.test_issue_manifest.GateFailurePaths.test_well_formed_exclusion_cannot_replace_requirement_mapping tests.test_issue_manifest.GateFailurePaths.test_missing_type_requirement_label_fails tests.test_issue_manifest.GateFailurePaths.test_missing_evidence_required_label_fails -v
+test_well_formed_exclusion_cannot_replace_requirement_mapping (tests.test_issue_manifest.GateFailurePaths.test_well_formed_exclusion_cannot_replace_requirement_mapping)
+WP-0.4 must remain mapped to PROG-00; exclusions are forbidden. ... ok
+test_missing_type_requirement_label_fails (tests.test_issue_manifest.GateFailurePaths.test_missing_type_requirement_label_fails) ... ok
+test_missing_evidence_required_label_fails (tests.test_issue_manifest.GateFailurePaths.test_missing_evidence_required_label_fails) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.009s
+
+OK
+exit=0
+```
+
+## 2. Complete unit-test output
+Exact command:
+```text
+$ python3 -m unittest discover -s tests -v
+test_every_board_has_deferred_column (test_issue_manifest.BoardStructureTest.test_every_board_has_deferred_column) ... ok
+test_exactly_one_board_per_supported_area (test_issue_manifest.BoardStructureTest.test_exactly_one_board_per_supported_area) ... ok
+test_board_area_must_cover_each_supported_area_exactly_once (test_issue_manifest.GateFailurePaths.test_board_area_must_cover_each_supported_area_exactly_once) ... ok
+test_board_targets_undefined_label_fails (test_issue_manifest.GateFailurePaths.test_board_targets_undefined_label_fails) ... ok
+test_cross_reference_is_order_independent (test_issue_manifest.GateFailurePaths.test_cross_reference_is_order_independent)
+AZ-08 (cross-referencing WP-11.4) may appear before AZ-01 (primary). ... ok
+test_dropped_requirement_fails (test_issue_manifest.GateFailurePaths.test_dropped_requirement_fails) ... ok
+test_duplicate_board_name_fails (test_issue_manifest.GateFailurePaths.test_duplicate_board_name_fails) ... ok
+test_duplicate_exclusion_rejected (test_issue_manifest.GateFailurePaths.test_duplicate_exclusion_rejected) ... ok
+test_duplicate_requirement_id_fails (test_issue_manifest.GateFailurePaths.test_duplicate_requirement_id_fails) ... ok
+test_duplicate_task_assignment_fails (test_issue_manifest.GateFailurePaths.test_duplicate_task_assignment_fails) ... ok
+test_exclusion_without_reason_fails (test_issue_manifest.GateFailurePaths.test_exclusion_without_reason_fails) ... ok
+test_invented_task_fails (test_issue_manifest.GateFailurePaths.test_invented_task_fails)
+A well-formed task id absent from the plan WBS must fail. ... ok
+test_missing_deferred_column_fails (test_issue_manifest.GateFailurePaths.test_missing_deferred_column_fails) ... ok
+test_missing_evidence_required_label_fails (test_issue_manifest.GateFailurePaths.test_missing_evidence_required_label_fails) ... ok
+test_missing_plan_verification_fails (test_issue_manifest.GateFailurePaths.test_missing_plan_verification_fails) ... ok
+test_missing_type_requirement_label_fails (test_issue_manifest.GateFailurePaths.test_missing_type_requirement_label_fails) ... ok
+test_non_program_requirement_cannot_own_program_task (test_issue_manifest.GateFailurePaths.test_non_program_requirement_cannot_own_program_task)
+Mirror of the PROG ownership rule (ab-qa coverage asymmetry). ... ok
+test_non_wp0_exclusion_rejected (test_issue_manifest.GateFailurePaths.test_non_wp0_exclusion_rejected) ... ok
+test_program_requirement_cannot_own_non_program_task (test_issue_manifest.GateFailurePaths.test_program_requirement_cannot_own_non_program_task) ... ok
+test_related_tasks_scalar_fails_without_crash (test_issue_manifest.GateFailurePaths.test_related_tasks_scalar_fails_without_crash)
+A non-list related_tasks value must produce the type finding only. ... ok
+test_renamed_plan_requirement_fails_both_directions (test_issue_manifest.GateFailurePaths.test_renamed_plan_requirement_fails_both_directions) ... ok
+test_repeated_board_column_fails (test_issue_manifest.GateFailurePaths.test_repeated_board_column_fails) ... ok
+test_requirement_anchor_drift_fails (test_issue_manifest.GateFailurePaths.test_requirement_anchor_drift_fails)
+Directive 9: the plan_anchor branch needs its own pinning test. ... ok
+test_requirement_title_drift_fails (test_issue_manifest.GateFailurePaths.test_requirement_title_drift_fails) ... ok
+test_reversed_cross_reference_order_still_passes (test_issue_manifest.GateFailurePaths.test_reversed_cross_reference_order_still_passes)
+Cross-referencer after primary is the current manifest order. ... ok
+test_source_of_truth_mismatch_fails (test_issue_manifest.GateFailurePaths.test_source_of_truth_mismatch_fails) ... ok
+test_task_without_acceptance_fails (test_issue_manifest.GateFailurePaths.test_task_without_acceptance_fails) ... ok
+test_unassigned_plan_task_fails (test_issue_manifest.GateFailurePaths.test_unassigned_plan_task_fails)
+The primary gate direction: dropping an assignment must fail. ... ok
+test_undefined_priority_label_fails (test_issue_manifest.GateFailurePaths.test_undefined_priority_label_fails) ... ok
+test_unknown_excluded_task_fails (test_issue_manifest.GateFailurePaths.test_unknown_excluded_task_fails) ... ok
+test_unsupported_board_area_fails (test_issue_manifest.GateFailurePaths.test_unsupported_board_area_fails) ... ok
+test_verification_text_drift_fails (test_issue_manifest.GateFailurePaths.test_verification_text_drift_fails) ... ok
+test_well_formed_exclusion_cannot_replace_requirement_mapping (test_issue_manifest.GateFailurePaths.test_well_formed_exclusion_cannot_replace_requirement_mapping)
+WP-0.4 must remain mapped to PROG-00; exclusions are forbidden. ... ok
+test_absolute_source_of_truth_fails (test_issue_manifest.MalformedInputTest.test_absolute_source_of_truth_fails)
+An absolute truth path must be rejected even if it names the plan. ... ok
+test_excessive_nesting_fails_visibly (test_issue_manifest.MalformedInputTest.test_excessive_nesting_fails_visibly)
+Pathological nesting must exit 1 with a parse error, never a traceback. ... ok
+test_malformed_fixture_fails_visibly (test_issue_manifest.MalformedInputTest.test_malformed_fixture_fails_visibly) ... ok
+test_non_string_source_of_truth_fails (test_issue_manifest.MalformedInputTest.test_non_string_source_of_truth_fails) ... ok
+test_nul_byte_source_of_truth_fails (test_issue_manifest.MalformedInputTest.test_nul_byte_source_of_truth_fails)
+A NUL inside truth must yield a FINDING, never a ValueError traceback. ... ok
+test_root_must_be_mapping_fails (test_issue_manifest.MalformedInputTest.test_root_must_be_mapping_fails)
+A top-level sequence manifest must exit 1, not crash on dict access. ... ok
+test_unknown_indentation_fails (test_issue_manifest.MalformedInputTest.test_unknown_indentation_fails) ... ok
+test_every_requirement_issue_is_listed (test_issue_manifest.RealRepositoryGateTest.test_every_requirement_issue_is_listed) ... ok
+test_gate_holds_without_exceptions (test_issue_manifest.RealRepositoryGateTest.test_gate_holds_without_exceptions)
+Every plan task maps to exactly one requirement; exclusions are zero. ... ok
+test_ok_output_reports_real_label_values (test_issue_manifest.RealRepositoryGateTest.test_ok_output_reports_real_label_values)
+The OK output must interpolate real priority/area labels (no '*'). ... ok
+test_parse_plan_inventory (test_issue_manifest.RealRepositoryGateTest.test_parse_plan_inventory) ... ok
+test_parser_preserves_quoted_and_colon_values (test_issue_manifest.RealRepositoryGateTest.test_parser_preserves_quoted_and_colon_values) ... ok
+test_real_files_pass_gate (test_issue_manifest.RealRepositoryGateTest.test_real_files_pass_gate) ... ok
+test_wp11_4_primary_is_az01_and_az08_cross_references (test_issue_manifest.RealRepositoryGateTest.test_wp11_4_primary_is_az01_and_az08_cross_references) ... ok
+test_missing_manifest_file_exits_two (test_issue_manifest.UsageAndInputErrors.test_missing_manifest_file_exits_two) ... ok
+test_missing_plan_file_exits_two (test_issue_manifest.UsageAndInputErrors.test_missing_plan_file_exits_two) ... ok
+test_wrong_argument_count_exits_two (test_issue_manifest.UsageAndInputErrors.test_wrong_argument_count_exits_two) ... ok
+
+----------------------------------------------------------------------
+Ran 50 tests in 0.121s
+
+OK
+exit=0
+```
+
+## 3. Manifest gate
+Exact command:
+```text
+$ python3 tools/validate_issue_manifest.py .github/project-bootstrap.yml docs/build-plan.md
+OK: 17 requirement issues, 57 mapped tasks, 0 excluded tasks, 57 plan WBS tasks, 3 boards, 13 labels
+issue: [PROG-00] Program setup and controls [labels: type:requirement priority:p0 area:program status:ready evidence:required]
+issue: [SKW-01] Package and CLI [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-02] Canonical event model [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-03] Telemetry ingestion [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-04] Threat-intelligence pipeline [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-05] Detection engineering [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-06] AI-assisted triage [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-07] Evaluation [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-08] Quality and delivery [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [AZ-01] Cost and safety controls [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-02] Infrastructure as code [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-03] Telemetry [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-04] Detection coverage [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-05] SOAR and analyst workflow [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-06] Vulnerability management [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-07] Governance evidence [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-08] Delivery [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+exit=0
+```
+
+## 4. Bytecode compile check
+Exact command:
+```text
+$ python3 -m compileall -q tools tests
+exit=0
+```
+
+## 5. Baseline-A transcript (commit 67f251f)
+Temporary detached worktree created for this observation and removed afterward.
+```text
+$ git ls-tree -r --name-only 67f251f -- .github tools tests
+exit=0 (empty listing: paths absent from committed baseline)
+$ python3 tools/validate_issue_manifest.py .github/project-bootstrap.yml docs/build-plan.md
+/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python: can't open file '/private/var/folders/46/txg8ypq90m74mn160b57v0vm0000gn/T/opencode/wp01-final-human-review/base/tools/validate_issue_manifest.py': [Errno 2] No such file or directory
+exit=2
+$ python3 -m unittest discover -s tests
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+    ~~~~^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/main.py", line 103, in __init__
+    self.parseArgs(argv)
+    ~~~~~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/main.py", line 119, in parseArgs
+    self._do_discovery(argv[2:])
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/main.py", line 242, in _do_discovery
+    self.createTests(from_discovery=True, Loader=Loader)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/main.py", line 149, in createTests
+    self.test = loader.discover(self.start, self.pattern, self.top)
+                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/loader.py", line 308, in discover
+    raise ImportError('Start directory is not importable: %r' % start_dir)
+ImportError: Start directory is not importable: 'tests'
+exit=1
+```
+
+## 6. Exact sanitized secret scan
+The evidence artifact is excluded from its own targets because its reproduced literal regex would self-match. Generated __pycache__ files are excluded as non-source artifacts.
+```text
+$ grep -nEi "([Aa][Kk][Ii][Aa][0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY|xox[abp]-[A-Za-z0-9-]{10,}|aws_secret_access_key|api[_-]?key[[:space:]]*[:=][[:space:]]*[A-Za-z0-9]|password[[:space:]]*[:=][[:space:]]*[A-Za-z0-9]|authorization:[[:space:]]*bearer)" tools/validate_issue_manifest.py tests/test_issue_manifest.py tests/__init__.py tests/fixtures/malformed_manifest.yml .github/project-bootstrap.yml docs/decisions/0002-issue-manifest-validator.md .gitignore
+exit=1 (1 = no matches = pass)
+```
+
+## 7. Final-correction results
+- Nonempty excluded_from_requirements lists are always rejected; a well-formed WP-0.4 exclusion cannot replace PROG-00 ownership.
+- type:requirement and evidence:required are mandatory manifest labels; removal of either is covered by a negative regression test.
+- Candidate B: targeted tests 3/3 pass; complete suite 50/50 pass; gate reports 17 issues, 57 mapped tasks, 0 exclusions, 57 plan tasks, 3 boards, 13 labels.
+- Baseline A: validator/manifest/tests absent at committed baseline 67f251f; gate exits 2 and unittest discovery exits 1.
+- No fourth automated review cycle was run. Final corrections are locally self-verified for human-facing review.
+- No live GitHub, network, or Azure operation occurred.
+
+Evidence status: Verified. The human operator authorized this transition
+conditionally on a passing clean-checkout validator run and 50-test suite;
+commit `8e639006d994354c0b07c1c1a75844a10c773639` satisfied both conditions.
+
+## 8. Authorized clean-checkout verification
+Human authorization: mark WP-0.1 and this evidence Verified only if the validator and all 50 tests pass from a clean checkout of the WP-0.1 commit.
+
+Verification target: `8e639006d994354c0b07c1c1a75844a10c773639`
+Worktree: detached temporary checkout; removed after evidence capture.
+
+### Clean-state checks
+```text
+$ git status --porcelain
+exit=0; output lines=0 (clean)
+```
+
+### Validator — complete output
+```text
+$ python3 tools/validate_issue_manifest.py .github/project-bootstrap.yml docs/build-plan.md
+OK: 17 requirement issues, 57 mapped tasks, 0 excluded tasks, 57 plan WBS tasks, 3 boards, 13 labels
+issue: [PROG-00] Program setup and controls [labels: type:requirement priority:p0 area:program status:ready evidence:required]
+issue: [SKW-01] Package and CLI [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-02] Canonical event model [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-03] Telemetry ingestion [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-04] Threat-intelligence pipeline [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-05] Detection engineering [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-06] AI-assisted triage [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-07] Evaluation [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [SKW-08] Quality and delivery [labels: type:requirement priority:p0 area:skinwalker status:ready evidence:required]
+issue: [AZ-01] Cost and safety controls [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-02] Infrastructure as code [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-03] Telemetry [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-04] Detection coverage [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-05] SOAR and analyst workflow [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-06] Vulnerability management [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-07] Governance evidence [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+issue: [AZ-08] Delivery [labels: type:requirement priority:p0 area:azure status:ready evidence:required]
+exit=0
+```
+
+### Complete 50-test output
+```text
+$ python3 -m unittest discover -s tests -v
+test_every_board_has_deferred_column (test_issue_manifest.BoardStructureTest.test_every_board_has_deferred_column) ... ok
+test_exactly_one_board_per_supported_area (test_issue_manifest.BoardStructureTest.test_exactly_one_board_per_supported_area) ... ok
+test_board_area_must_cover_each_supported_area_exactly_once (test_issue_manifest.GateFailurePaths.test_board_area_must_cover_each_supported_area_exactly_once) ... ok
+test_board_targets_undefined_label_fails (test_issue_manifest.GateFailurePaths.test_board_targets_undefined_label_fails) ... ok
+test_cross_reference_is_order_independent (test_issue_manifest.GateFailurePaths.test_cross_reference_is_order_independent)
+AZ-08 (cross-referencing WP-11.4) may appear before AZ-01 (primary). ... ok
+test_dropped_requirement_fails (test_issue_manifest.GateFailurePaths.test_dropped_requirement_fails) ... ok
+test_duplicate_board_name_fails (test_issue_manifest.GateFailurePaths.test_duplicate_board_name_fails) ... ok
+test_duplicate_exclusion_rejected (test_issue_manifest.GateFailurePaths.test_duplicate_exclusion_rejected) ... ok
+test_duplicate_requirement_id_fails (test_issue_manifest.GateFailurePaths.test_duplicate_requirement_id_fails) ... ok
+test_duplicate_task_assignment_fails (test_issue_manifest.GateFailurePaths.test_duplicate_task_assignment_fails) ... ok
+test_exclusion_without_reason_fails (test_issue_manifest.GateFailurePaths.test_exclusion_without_reason_fails) ... ok
+test_invented_task_fails (test_issue_manifest.GateFailurePaths.test_invented_task_fails)
+A well-formed task id absent from the plan WBS must fail. ... ok
+test_missing_deferred_column_fails (test_issue_manifest.GateFailurePaths.test_missing_deferred_column_fails) ... ok
+test_missing_evidence_required_label_fails (test_issue_manifest.GateFailurePaths.test_missing_evidence_required_label_fails) ... ok
+test_missing_plan_verification_fails (test_issue_manifest.GateFailurePaths.test_missing_plan_verification_fails) ... ok
+test_missing_type_requirement_label_fails (test_issue_manifest.GateFailurePaths.test_missing_type_requirement_label_fails) ... ok
+test_non_program_requirement_cannot_own_program_task (test_issue_manifest.GateFailurePaths.test_non_program_requirement_cannot_own_program_task)
+Mirror of the PROG ownership rule (ab-qa coverage asymmetry). ... ok
+test_non_wp0_exclusion_rejected (test_issue_manifest.GateFailurePaths.test_non_wp0_exclusion_rejected) ... ok
+test_program_requirement_cannot_own_non_program_task (test_issue_manifest.GateFailurePaths.test_program_requirement_cannot_own_non_program_task) ... ok
+test_related_tasks_scalar_fails_without_crash (test_issue_manifest.GateFailurePaths.test_related_tasks_scalar_fails_without_crash)
+A non-list related_tasks value must produce the type finding only. ... ok
+test_renamed_plan_requirement_fails_both_directions (test_issue_manifest.GateFailurePaths.test_renamed_plan_requirement_fails_both_directions) ... ok
+test_repeated_board_column_fails (test_issue_manifest.GateFailurePaths.test_repeated_board_column_fails) ... ok
+test_requirement_anchor_drift_fails (test_issue_manifest.GateFailurePaths.test_requirement_anchor_drift_fails)
+Directive 9: the plan_anchor branch needs its own pinning test. ... ok
+test_requirement_title_drift_fails (test_issue_manifest.GateFailurePaths.test_requirement_title_drift_fails) ... ok
+test_reversed_cross_reference_order_still_passes (test_issue_manifest.GateFailurePaths.test_reversed_cross_reference_order_still_passes)
+Cross-referencer after primary is the current manifest order. ... ok
+test_source_of_truth_mismatch_fails (test_issue_manifest.GateFailurePaths.test_source_of_truth_mismatch_fails) ... ok
+test_task_without_acceptance_fails (test_issue_manifest.GateFailurePaths.test_task_without_acceptance_fails) ... ok
+test_unassigned_plan_task_fails (test_issue_manifest.GateFailurePaths.test_unassigned_plan_task_fails)
+The primary gate direction: dropping an assignment must fail. ... ok
+test_undefined_priority_label_fails (test_issue_manifest.GateFailurePaths.test_undefined_priority_label_fails) ... ok
+test_unknown_excluded_task_fails (test_issue_manifest.GateFailurePaths.test_unknown_excluded_task_fails) ... ok
+test_unsupported_board_area_fails (test_issue_manifest.GateFailurePaths.test_unsupported_board_area_fails) ... ok
+test_verification_text_drift_fails (test_issue_manifest.GateFailurePaths.test_verification_text_drift_fails) ... ok
+test_well_formed_exclusion_cannot_replace_requirement_mapping (test_issue_manifest.GateFailurePaths.test_well_formed_exclusion_cannot_replace_requirement_mapping)
+WP-0.4 must remain mapped to PROG-00; exclusions are forbidden. ... ok
+test_absolute_source_of_truth_fails (test_issue_manifest.MalformedInputTest.test_absolute_source_of_truth_fails)
+An absolute truth path must be rejected even if it names the plan. ... ok
+test_excessive_nesting_fails_visibly (test_issue_manifest.MalformedInputTest.test_excessive_nesting_fails_visibly)
+Pathological nesting must exit 1 with a parse error, never a traceback. ... ok
+test_malformed_fixture_fails_visibly (test_issue_manifest.MalformedInputTest.test_malformed_fixture_fails_visibly) ... ok
+test_non_string_source_of_truth_fails (test_issue_manifest.MalformedInputTest.test_non_string_source_of_truth_fails) ... ok
+test_nul_byte_source_of_truth_fails (test_issue_manifest.MalformedInputTest.test_nul_byte_source_of_truth_fails)
+A NUL inside truth must yield a FINDING, never a ValueError traceback. ... ok
+test_root_must_be_mapping_fails (test_issue_manifest.MalformedInputTest.test_root_must_be_mapping_fails)
+A top-level sequence manifest must exit 1, not crash on dict access. ... ok
+test_unknown_indentation_fails (test_issue_manifest.MalformedInputTest.test_unknown_indentation_fails) ... ok
+test_every_requirement_issue_is_listed (test_issue_manifest.RealRepositoryGateTest.test_every_requirement_issue_is_listed) ... ok
+test_gate_holds_without_exceptions (test_issue_manifest.RealRepositoryGateTest.test_gate_holds_without_exceptions)
+Every plan task maps to exactly one requirement; exclusions are zero. ... ok
+test_ok_output_reports_real_label_values (test_issue_manifest.RealRepositoryGateTest.test_ok_output_reports_real_label_values)
+The OK output must interpolate real priority/area labels (no '*'). ... ok
+test_parse_plan_inventory (test_issue_manifest.RealRepositoryGateTest.test_parse_plan_inventory) ... ok
+test_parser_preserves_quoted_and_colon_values (test_issue_manifest.RealRepositoryGateTest.test_parser_preserves_quoted_and_colon_values) ... ok
+test_real_files_pass_gate (test_issue_manifest.RealRepositoryGateTest.test_real_files_pass_gate) ... ok
+test_wp11_4_primary_is_az01_and_az08_cross_references (test_issue_manifest.RealRepositoryGateTest.test_wp11_4_primary_is_az01_and_az08_cross_references) ... ok
+test_missing_manifest_file_exits_two (test_issue_manifest.UsageAndInputErrors.test_missing_manifest_file_exits_two) ... ok
+test_missing_plan_file_exits_two (test_issue_manifest.UsageAndInputErrors.test_missing_plan_file_exits_two) ... ok
+test_wrong_argument_count_exits_two (test_issue_manifest.UsageAndInputErrors.test_wrong_argument_count_exits_two) ... ok
+
+----------------------------------------------------------------------
+Ran 50 tests in 0.131s
+
+OK
+exit=0
+```
+
+### Post-verification clean state
+```text
+$ git status --porcelain
+exit=0; output lines=0 (clean)
+```
+
+Result: validator exit 0; 50/50 tests passed; checkout remained clean. The human operator's conditional verification criteria were satisfied. WP-0.1 and this evidence are Verified.
+
+The evidence-status update is included by amending the same WP-0.1 commit. The final amended commit is re-run from a fresh clean checkout; its SHA and results are reported in the completion report.

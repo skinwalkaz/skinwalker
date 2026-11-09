@@ -1,0 +1,7 @@
+# SYNTHETIC fixture - intentionally malformed input for a negative test.
+# This file is not manifest content; it exists only to prove the validator
+# fails visibly on unsupported YAML syntax instead of guessing.
+version: 1
+source_of_truth: docs/build-plan.md
+labels:
+  - name: [tips, are, not, yaml, scalars]
