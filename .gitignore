@@ -10,3 +10,6 @@
 # Generated test bytecode.
 __pycache__/
 *.pyc
+
+# Repository-local synthetic peer trees and generated policy test output.
+/.policy-test-tmp/

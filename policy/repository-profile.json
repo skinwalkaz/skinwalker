@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "repository": "skinwalker",
+  "area": "skinwalker",
+  "plan_role": "canonical",
+  "source_repository": "skinwalkaz/skinwalker",
+  "source_commit": "63b39b809413ced3a0b3b58f3a24e96394f8f11a",
+  "plan_path": "docs/build-plan.md",
+  "plan_sha256": "82431e56488a97f7c8768a7078f915778d1e4ea4dff14fed2da495a2316a9eb8",
+  "cloud_write_default": false,
+  "paid_service_default": false,
+  "out_of_pocket_target_usd": 0,
+  "azure_credit_target_less_than_usd": 25,
+  "absolute_cost_ceiling_without_explicit_approval_usd": 40,
+  "task_id": "WP-0.2",
+  "requirement_id": "PROG-00",
+  "estimated_incremental_cost_usd": 0,
+  "actual_incremental_cost_usd": 0
+}
