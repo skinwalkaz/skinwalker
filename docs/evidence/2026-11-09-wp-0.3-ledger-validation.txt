@@ -1,0 +1,119 @@
+WP-0.3 / PROG-00 ledger validation
+Date: 2026-11-09
+Status: Collected
+Repository: skinwalker
+Branch: docs/prog-00-wp-0.3-ledgers
+Base commit: a0fd0dc1abb98aec9c01e6c4fd36e394b508b32e
+Scope: four authorized local candidate files only
+External services contacted: none
+Cloud resources changed: none
+Estimated incremental cost USD: 0
+Actual incremental cost USD: 0
+
+Candidate artifacts
+-------------------
+- docs/evidence-ledger.md
+  Bytes: 1068
+  SHA256: af5419da1d56b4cc40b3b873262a71675765b78b5b11b1da81071eafdec4364c
+- tools/validate_ledgers.py
+  Bytes: 9903
+  SHA256: 717a84b94118d9ba8173f7e586a68e13fd086c3644d7c4d74f30af5f51ba6953
+- tests/test_ledgers.py
+  Bytes: 14107
+  SHA256: bcdd7ba73ab9a432aad1b69d6666906eb6749df0d496a80e801f5c1c63197bec
+
+These values were generated after code and tests settled with:
+wc -c docs/evidence-ledger.md tools/validate_ledgers.py tests/test_ledgers.py
+shasum -a 256 docs/evidence-ledger.md tools/validate_ledgers.py tests/test_ledgers.py
+
+This evidence artifact cannot hash itself: adding or changing its embedded hash
+would change the artifact and invalidate that hash. Its path is
+docs/evidence/2026-11-09-wp-0.3-ledger-validation.txt.
+
+Verification results
+--------------------
+Working directory: /Users/ryantuley/Downloads/APT 29/skinwalker
+
+Command: python3 -m unittest -v tests.test_ledgers
+Exit: 0
+Result: an intermediate organizational run passed 25 tests with 0 failures,
+0 errors, and 0 skips. Two expanded baseline methods were then separated from
+the new regressions so the original 22 tests remained visibly retained. This
+was a successful diagnostic run, not a failed test retry.
+
+Command: python3 -m unittest -v tests.test_ledgers
+Exit: 0
+Result: final suite passed 27 tests; 0 failures, 0 errors, 0 skips. New coverage
+includes non-string repository values (array, object, number, boolean, null),
+exact normalized reviewer and evidence-reference placeholders, an E-* sample
+masquerade, case-insensitive SAMPLE ONLY handling, and a marker substring
+bypass. Existing profile-root, interrupted-table, sample lifecycle, Verified
+invariant, missing-ledger, malformed-header, duplicate-ID, status, date, and
+commit regressions remain present.
+
+Command: python3 -m unittest -v tests.test_issue_manifest
+Exit: 0
+Result: 50 tests passed; 0 failures, 0 errors, 0 skips.
+
+Command: python3 tools/validate_ledgers.py
+Exit: 0
+Result: OK: evidence sample rows=1, evidence live rows=0, cost sample rows=0,
+cost live rows=0
+
+Command: python3 tools/validate_issue_manifest.py docs/issue-manifest.yaml docs/build-plan.md
+Exit: 2
+Result: failed because docs/issue-manifest.yaml does not exist. This was an
+incorrect path assumption and is retained here; it was not a validator finding.
+
+Command: python3 tools/validate_issue_manifest.py .github/project-bootstrap.yml docs/build-plan.md
+Exit: 0
+Result: OK: 17 requirement issues, 57 mapped tasks, 0 excluded tasks, 57 plan
+WBS tasks, 3 boards, 13 labels.
+
+Command: python3 -m py_compile tools/validate_ledgers.py tests/test_ledgers.py
+Exit: 0
+Result: compilation passed with no output.
+
+Command: candidate-only Python secret-shape scan of docs/evidence-ledger.md,
+tools/validate_ledgers.py, tests/test_ledgers.py, and this evidence artifact
+Exit: 0
+Result: candidate secret scan: 0 finding(s).
+
+Command: direct Python final-newline and trailing-whitespace scan of the four
+candidate files
+Exit: 0
+Result: candidate whitespace scan: 0 finding(s).
+
+Command: git diff --cached --name-only
+Exit: 0
+Result: no output; staged inventory is empty.
+
+Evidence interpretation
+-----------------------
+The ledger contains one SAMPLE ONLY row and zero live rows. The row validates
+the template and is not evidence of project functionality. The validator
+enforces structural prerequisites for Verified rows; it does not prove
+repository identity, that a reviewer is human, or that review occurred.
+Synthetic temporary test trees are not live evidence.
+
+Safety disclosure
+-----------------
+One overly broad read-only grep before this final correction exposed sibling-
+repository filenames and line previews. No sibling file was modified, no
+exposed data is reproduced here, and no subsequent sibling access occurred.
+No credentials or authentication caches were accessed. No network, cloud,
+Azure, Terraform, or external-service operation occurred.
+
+Exclusions and limitations
+--------------------------
+- Literal pipes inside Markdown cells remain unsupported (accepted deferred
+  P2).
+- Default-root validation still depends on the checkout directory layout
+  (accepted deferred P2).
+- Raw command transcripts are not embedded; results and exit codes are
+  recorded above (accepted deferred P2).
+- The WP-0.2 repository-policy validator and its real-repository default test
+  are task-specific change-scope gates and were excluded from this WP-0.3
+  candidate validation.
+- Ruff and mypy are not project dependencies and were not run.
+- This artifact remains Collected until human review and is not Verified.
