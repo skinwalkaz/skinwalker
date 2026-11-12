@@ -13,6 +13,7 @@ the named reviewer is human, that review occurred, or repository identity.
 | Evidence ID | Claim | Requirement | Evidence path or link | Verification command | Git commit | Date | Reviewer | Status |
 |---|---|---|---|---|---|---|---|---|
 | SAMPLE-SKW-000 | SAMPLE ONLY - replace with measured project evidence | PROG-00 | docs/evidence/example.txt | `python3 tools/validate_ledgers.py` | PENDING | 2026-11-09 | Unassigned | Open |
+| E-SKW-001 | Sanitized deterministic local prerequisite and version report | PROG-00 | docs/evidence/2026-11-10-wp-0.4-prerequisites.txt | `python3 tools/check_prerequisites.py` | PENDING | 2026-11-10 | Unassigned | Collected |
 
 Allowed statuses: `Open`, `Collected`, `Needs Review`, `Verified`, `Failed`, and
 `Superseded`.

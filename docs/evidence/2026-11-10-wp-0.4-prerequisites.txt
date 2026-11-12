@@ -1,0 +1,84 @@
+WP-0.4 / PROG-00 Local Prerequisite Evidence
+Collection date: 2026-11-10
+Status: Collected
+
+Collection command:
+python3 tools/check_prerequisites.py
+
+Sanitized result:
+Schema-Version: 1
+OS-Family: Darwin
+OS-Version: 26.5.1
+CPU-Architecture: arm64
+Git-Version: 2.50.1
+Python-Version: 3.13.12
+Executable-git: Available
+Executable-python3: Available
+Executable-terraform: Unavailable
+Executable-az: Unavailable
+
+Collection methods:
+- OS family: Python platform.system().
+- OS version: Python platform.mac_ver()[0] on this OS family.
+- CPU architecture: Python platform.machine().
+- Git version: safe local command git --version.
+- Python version: safe local command python3 --version.
+- Executable availability: Python shutil.which() result reduced to Available or
+  Unavailable; discovery used normal OS process search semantics (including
+  PATH), while environment values and resolved executable paths were not
+  emitted or stored.
+
+Observed collection result: exit 0; all required schema fields were present.
+Focused tests: python3 -m unittest tests.test_prerequisites -v; exit 0; 10 tests
+passed on the corrected verification run. Focused ledger tests: python3 -m
+unittest tests.test_ledgers -v; exit 0; 27 tests passed. Collection and focused-
+test failures or retries: none.
+
+Additional verification results:
+- Python compilation of the checker, prerequisite tests, and ledger tests: exit
+  0.
+- python3 -m unittest -q tests.test_ledgers tests.test_issue_manifest: exit 1;
+  77 tests ran with one failure in the original combined-suite run. The stale
+  repository-sample test fixed the counts at one sample row and zero live rows,
+  but the required E-SKW-001 row produces one sample and one live row. This
+  original failure is preserved rather than hidden.
+- After the authorized test correction, the same combined-suite command was
+  rerun: exit 0; all 77 tests passed. The corrected test requires nonnegative
+  sample and live counts, at least one row across those counts, and zero sample
+  and live cost rows; it does not require a fixed sample/live split and remains
+  valid when the sample row is removed.
+- python3 tools/validate_ledgers.py: exit 0; one sample and one live evidence
+  row validated.
+- python3 tools/check_prerequisites.py: exit 0; all ten sanitized schema fields
+  were emitted in order.
+- Approved issue-manifest validator: exit 0; 17 requirements, 57 mapped tasks,
+  zero excluded tasks, 57 plan tasks, three boards, and 13 labels.
+- Candidate-only secret scan over the six authorized paths: exit 0; zero
+  findings.
+- Direct whitespace/final-newline scan over the six authorized paths: exit 0;
+  zero findings.
+
+Exclusions and safety:
+- No network or external service was contacted.
+- No cloud, subscription, tenant, trial, authentication, or credential command
+  was run; no cloud state is claimed.
+- Terraform and Azure CLI were checked for availability only and were not run.
+- No environment-variable value, username, hostname, home path, executable
+  path, personal identifier, credential, or token was emitted or stored.
+- The checker itself was read-only. The final candidate inventory is limited to
+  the six authorized repository paths; this integration correction edited only
+  the ledger test and this evidence file. No installation, upgrade, or cloud
+  resource change occurred.
+- Incremental estimated cost: $0. Actual incremental cost: $0.
+- WP-0.2 policy validation is excluded by the approved task packet.
+
+Byte-size and SHA-256 bindings for settled non-evidence task files:
+3288 bytes  69930207b2fad6a0f33c74d82d581e9d265a0475a3964ad51ba5f73c615cfd0b  docs/prerequisites.md
+1297 bytes  86ccc80ac74e16a6940c833f245a674814c0054a1490a295eab56f19d0667a2a  docs/evidence-ledger.md
+6891 bytes  9b2024156a4b489b50209bdeac40dabbc90c7b3d37f68c9fb04a7ebd94c45d90  tools/check_prerequisites.py
+4590 bytes  6270104787aaa6b135ba84a5f3a6403dcc0f89fed2c6d38471e82c2f09eb2d58  tests/test_prerequisites.py
+14210 bytes  cf8b99c9c832673905a15036b1ae6e7290b064520c9b34cb62ea454fdc3fff9f  tests/test_ledgers.py
+
+Self-hash limitation: this evidence file cannot contain its own final hash
+without changing that hash. Its final SHA-256 is reported separately during
+review handoff.
